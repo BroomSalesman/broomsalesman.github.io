@@ -8,22 +8,23 @@
 
 
 let pencolor;
-let pensize = 5;
+let penSize = 5;
 
 //pallete squares size
-pltsize = 30;
+let pltsize = 30;
 
 
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(windowHeight, 550);
 }
 
 
 function draw() {
+  frameRate(1000);
+  coloringPen();
   background(255);
   noCursor();
   createPallete();
-  coloringPen();
   chooseColor();
 
 }
@@ -38,10 +39,11 @@ function draw() {
 function pltBlock(x, y, size, color) {
   fill(color);
   square(x, y, size);
+  square
 }
 
 function createPallete() {
-
+  stroke(0)l
   //pallete area
   line (40, 0 , 40, 1000);
   fill('lightgray');
@@ -176,20 +178,55 @@ function chooseColor() {
 }
 
 function coloringPen() {
-  circle(mouseX, mouseY,  pensize);
+  noStroke();
+  circle(mouseX, mouseY,  penSize);
 }
 
 function drawPen() {
   if (mouseIsPressed()) {
     fill(pencolor);
-    stroke(0);
     circle(mouseX, mouseY, pensize);
   }
 
 }
 
-function chooseSize() {
-  scroll
+// Change direction when the user scrolls the mouse wheel.
+function mouseWheel(event) {
+  if (event.delta < 0) {
+    if (penSize >= 80) {
+      penSize = 1;
+    }
+
+    if (penSize < 5) {
+      penSize += 1;
+    }
+
+    else {
+      penSize += 5;
+    }
+
+    direction = '^';
+  }
+  else {
+    if (penSize <= 1) {
+      penSize = 80;
+    }
+
+    if (penSize <= 5)
+    {
+      penSize -= 1;
+    }
+
+    else {
+      penSize -= 5;
+    }
+    direction = '▼';
+  }
+}
+
+
+//maybe use a select size key where they can type in the exact value
+function keyToChangeSize() {
 }
 
 
