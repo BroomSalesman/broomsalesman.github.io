@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 // Project Title
 // Your Name
 // Date
@@ -140,7 +141,7 @@ function chooseColor() {
     //turquoise pressed
     if (mouseY > 285 && mouseY < 315) {
       pencolor = 'turquoise';
-  }
+    }
 
     //skyblue pressed
     if (mouseY > 320 && mouseY < 350) {
@@ -159,15 +160,15 @@ function chooseColor() {
 
     //purple pressed
     if (mouseY > 425 && mouseY < 455) {
-    pencolor = 'indigo';
-  }
+      pencolor = 'indigo';
+    }
 
     //lavendar pressed
     if (mouseY > 460 && mouseY < 490) {
       pencolor = '#a392cb';
     }
 
-  //pink pressed
+    //pink pressed
     if (mouseY > 495 && mouseY < 525) {
       pencolor = 'hotpink';
     }
@@ -188,7 +189,7 @@ function drawPen() {
 }
 
 function chooseSize() {
-
+  scroll
 }
 
 
