@@ -39,11 +39,10 @@ function draw() {
 function pltBlock(x, y, size, color) {
   fill(color);
   square(x, y, size);
-  square
 }
 
 function createPallete() {
-  stroke(0)l
+  stroke(0);
   //pallete area
   line (40, 0 , 40, 1000);
   fill('lightgray');
@@ -98,7 +97,7 @@ function createPallete() {
 //when color from pallete is clicked on, color of pen changes
 function chooseColor() {
 
-  if (mouseIsPressed && (mouseX > 5)&&(mouseX <= 30)) {
+  if (mouseIsPressed && mouseX > 5&&mouseX <= 30) {
 
     //blacked pressed
     if (mouseY > 5 && mouseY < 35) {
@@ -185,7 +184,7 @@ function coloringPen() {
 function drawPen() {
   if (mouseIsPressed()) {
     fill(pencolor);
-    circle(mouseX, mouseY, pensize);
+    circle(mouseX, mouseY, penSize);
   }
 
 }
@@ -205,30 +204,24 @@ function mouseWheel(event) {
       penSize += 5;
     }
 
-    direction = '^';
   }
   else {
     if (penSize <= 1) {
       penSize = 80;
     }
 
-    if (penSize <= 5)
-    {
+    if (penSize <= 5) {
       penSize -= 1;
     }
 
     else {
       penSize -= 5;
     }
-    direction = '▼';
   }
 }
 
 
 //maybe use a select size key where they can type in the exact value
 function keyToChangeSize() {
+  let y = 0;
 }
-
-
-
-
