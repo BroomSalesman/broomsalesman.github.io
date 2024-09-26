@@ -7,7 +7,7 @@
 // - describe what you did to take this project "above and beyond"
 
 
-let pencolor;
+let penColor = 'black';
 let penSize = 5;
 
 //pallete squares size
@@ -20,12 +20,13 @@ function setup() {
 
 
 function draw() {
-  frameRate(1000);
-  coloringPen();
+  frameRate(100);
   background(255);
+  chooseColor();
+  coloringPen();
+  drawPen();
   noCursor();
   createPallete();
-  chooseColor();
 
 }
 
@@ -36,13 +37,146 @@ function draw() {
 
 
 
+
+
+//when color from pallete is clicked on, color of pen changes
+function chooseColor() {
+
+  if (mouseIsPressed && mouseX > 5&&mouseX <= 30) {
+
+    //blacked pressed
+    if (mouseY > 5 && mouseY < 35) {
+      penColor = 'black';
+    }
+
+    //gray pressed
+    if (mouseY > 40 && mouseY < 70) {
+      penColor = 'gray';
+    }
+
+    //white pressed
+    if (mouseY > 75 && mouseY < 105) {
+      penColor = 'white';
+    }
+
+    //red pressed
+    if (mouseY > 110 && mouseY < 140) {
+      penColor = 'red';
+    }
+
+    //orange pressed
+    if (mouseY > 145 && mouseY < 175) {
+      penColor = 'orange';
+    }
+
+    //yellow pressed
+    if (mouseY > 180 && mouseY < 210) {
+      penColor = 'yellow';
+    }
+
+    // lime pressed
+    if (mouseY > 215 && mouseY < 245) {
+      penColor = 'lime';
+    }
+
+    //green pressed
+    if (mouseY > 250 && mouseY < 280) {
+      penColor = 'green';
+    }
+
+    //turquoise pressed
+    if (mouseY > 285 && mouseY < 315) {
+      penColor = 'turquoise';
+    }
+
+    //skyblue pressed
+    if (mouseY > 320 && mouseY < 350) {
+      penColor = 'skyblue';
+    }
+
+    //blue pressed
+    if (mouseY > 355 && mouseY < 385) {
+      penColor = 'royalblue';
+    }
+
+    //darkblue pressed
+    if (mouseY > 390 && mouseY < 420) {
+      penColor = 'darkblue';
+    }
+
+    //purple pressed
+    if (mouseY > 425 && mouseY < 455) {
+      penColor = 'indigo';
+    }
+
+    //lavendar pressed
+    if (mouseY > 460 && mouseY < 490) {
+      penColor = '#a392cb';
+    }
+
+    //pink pressed
+    if (mouseY > 495 && mouseY < 525) {
+      penColor = 'hotpink';
+    }
+  }
+}
+
+function coloringPen() {
+  //fill(penColor);
+  console.log(penColor);
+  circle(mouseX, mouseY,  penSize);
+}
+
+function drawPen() {
+  if (mouseIsPressed) {
+    fill(penColor);
+    circle(mouseX, mouseY, penSize);
+  }
+
+}
+
+// Change direction when the user scrolls the mouse wheel.
+function mouseWheel(event) {
+  if (event.delta < 0) {
+    if (penSize >= 80) {
+      penSize = 1;
+    }
+
+    if (penSize < 5) {
+      penSize += 1;
+    }
+
+    else {
+      penSize += 5;
+    }
+  }
+
+  else {
+    if (penSize <= 1) {
+      penSize = 80;
+    }
+
+    if (penSize <= 5) {
+      penSize -= 1;
+    }
+
+    else {
+      penSize -= 5;
+    }
+  }
+}
+
+
+//maybe use a select size key where they can type in the exact value
+function keyToChangeSize() {
+}
+
 function pltBlock(x, y, size, color) {
   fill(color);
   square(x, y, size);
 }
 
 function createPallete() {
-  stroke(0);
   //pallete area
   line (40, 0 , 40, 1000);
   fill('lightgray');
@@ -94,134 +228,4 @@ function createPallete() {
   pltBlock(5, 495, pltsize, 'hotpink');
 }
 
-//when color from pallete is clicked on, color of pen changes
-function chooseColor() {
 
-  if (mouseIsPressed && mouseX > 5&&mouseX <= 30) {
-
-    //blacked pressed
-    if (mouseY > 5 && mouseY < 35) {
-      pencolor = 'black';
-    }
-
-    //gray pressed
-    if (mouseY > 40 && mouseY < 70) {
-      pencolor = 'gray';
-    }
-
-    //white pressed
-    if (mouseY > 75 && mouseY < 105) {
-      pencolor = 'white';
-    }
-
-    //red pressed
-    if (mouseY > 110 && mouseY < 140) {
-      pencolor = 'red';
-    }
-
-    //orange pressed
-    if (mouseY > 145 && mouseY < 175) {
-      pencolor = 'orange';
-    }
-
-    //yellow pressed
-    if (mouseY > 180 && mouseY < 210) {
-      pencolor = 'yellow';
-    }
-
-    // lime pressed
-    if (mouseY > 215 && mouseY < 245) {
-      pencolor = 'lime';
-    }
-
-    //green pressed
-    if (mouseY > 250 && mouseY < 280) {
-      pencolor = 'green';
-    }
-
-    //turquoise pressed
-    if (mouseY > 285 && mouseY < 315) {
-      pencolor = 'turquoise';
-    }
-
-    //skyblue pressed
-    if (mouseY > 320 && mouseY < 350) {
-      pencolor = 'skyblue';
-    }
-
-    //blue pressed
-    if (mouseY > 355 && mouseY < 385) {
-      pencolor = 'royalblue';
-    }
-
-    //darkblue pressed
-    if (mouseY > 390 && mouseY < 420) {
-      pencolor = 'darkblue';
-    }
-
-    //purple pressed
-    if (mouseY > 425 && mouseY < 455) {
-      pencolor = 'indigo';
-    }
-
-    //lavendar pressed
-    if (mouseY > 460 && mouseY < 490) {
-      pencolor = '#a392cb';
-    }
-
-    //pink pressed
-    if (mouseY > 495 && mouseY < 525) {
-      pencolor = 'hotpink';
-    }
-  }
-}
-
-function coloringPen() {
-  noStroke();
-  circle(mouseX, mouseY,  penSize);
-}
-
-function drawPen() {
-  if (mouseIsPressed()) {
-    fill(pencolor);
-    circle(mouseX, mouseY, penSize);
-  }
-
-}
-
-// Change direction when the user scrolls the mouse wheel.
-function mouseWheel(event) {
-  if (event.delta < 0) {
-    if (penSize >= 80) {
-      penSize = 1;
-    }
-
-    if (penSize < 5) {
-      penSize += 1;
-    }
-
-    else {
-      penSize += 5;
-    }
-
-  }
-  else {
-    if (penSize <= 1) {
-      penSize = 80;
-    }
-
-    if (penSize <= 5) {
-      penSize -= 1;
-    }
-
-    else {
-      penSize -= 5;
-    }
-  }
-}
-
-
-//maybe use a select size key where they can type in the exact value
-function keyToChangeSize() {
-  let y = 0;
-}
