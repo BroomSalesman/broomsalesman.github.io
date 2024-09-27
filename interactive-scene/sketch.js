@@ -23,13 +23,12 @@ function draw() {
   frameRate(100);
   background(255);
   chooseColor();
-  coloringPen();
-  drawPen();
+  showPen();
+  mousePressed();
   noCursor();
   createPallete();
 
 }
-
 
 
 
@@ -121,19 +120,17 @@ function chooseColor() {
   }
 }
 
-function coloringPen() {
-  //fill(penColor);
-  console.log(penColor);
+function showPen() {
+  fill(penColor);
+  stroke(0, 0);
   circle(mouseX, mouseY,  penSize);
 }
 
-function drawPen() {
-  if (mouseIsPressed) {
-    fill(penColor);
-    circle(mouseX, mouseY, penSize);
-  }
-
+function mousePressed() {
+  fill(penColor);
+  circle(mouseX, mouseY, penSize);
 }
+
 
 // Change direction when the user scrolls the mouse wheel.
 function mouseWheel(event) {
@@ -169,6 +166,16 @@ function mouseWheel(event) {
 
 //maybe use a select size key where they can type in the exact value
 function keyToChangeSize() {
+}
+
+
+function showCursor() {
+  if (mouseX < 40) {
+    showCursor();
+  }
+  else {
+    noCursor();
+  }
 }
 
 function pltBlock(x, y, size, color) {
