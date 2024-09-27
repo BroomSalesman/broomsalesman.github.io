@@ -1,5 +1,8 @@
 let pencolor;
 let pensize = 5;
+let gameState = "start";
+
+
 
 //pallete squares size
 pltsize = 30;
@@ -11,16 +14,33 @@ function setup() {
 
 
 function draw() {
-  background(255);
-  noCursor();
-  createPallete();
-  coloringPen();
-  chooseColor();
-  circle(200, 200, 5);
+
+  if (gameState === "start") {
+    showStartScreen();
+  }
+
+  else {
+    background(255);
+    noCursor();
+    createPallete();
+    coloringPen();
+    chooseColor();
+    circle(200, 200, 5);
+  }
 
 }
 
+function mousePressed() {
+  if (gameState === 'start') {
+    gameState = 'moving square'
+  }
+}
 
+function showStartScreen() {
+  textAlign(CENTER, CENTER);
+
+
+}
 
 
 //Placeholder for colors in the pallete

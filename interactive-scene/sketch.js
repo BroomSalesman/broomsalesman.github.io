@@ -6,6 +6,9 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+// Credits: https://editor.p5js.org/Apollo199999999/sketches/X0Y6tSIjJ
+// Used the line(pmouseX, pmouseY, mouseX, mouseY) code
+
 
 let penColor = 'black';
 let penSize = 5;
@@ -14,28 +17,86 @@ let penSize = 5;
 let pltsize = 30;
 
 
+
 function setup() {
   createCanvas(windowHeight, 550);
+  background(255);
+  createPallete();
 }
 
 
 function draw() {
-  frameRate(100);
-  background(255);
+  frameRate(120);
+  //background(255);
+  //noStroke();
+
   chooseColor();
+
   showPen();
-  mousePressed();
-  noCursor();
-  createPallete();
+  drawPen();
 
 }
 
 
 
-//Placeholder for colors in the pallete
+function showPen() {
+  fill(penColor);
+  if (mouseX >= 40) {
+    noCursor();
+    //circle(mouseX, mouseY,  penSize);
+
+  }
+
+  else if (mouseX < 38) {
+    cursor();
+  }
+}
 
 
+function drawPen() {
+  if (mouseIsPressed && mouseX > 40) {
+    stroke(penColor);
+    strokeWeight(penSize);
+    line(pmouseX, pmouseY, mouseX, mouseY);
+  }
+}
 
+
+// Change direction when the user scrolls the mouse wheel.
+function mouseWheel(event) {
+  if (event.delta < 0) {
+    if (penSize >= 80) {
+      penSize = 1;
+    }
+
+    if (penSize < 5) {
+      penSize += 1;
+    }
+
+    else {
+      penSize += 5;
+    }
+  }
+
+  else {
+    if (penSize <= 1) {
+      penSize = 80;
+    }
+
+    if (penSize <= 5) {
+      penSize -= 1;
+    }
+
+    else {
+      penSize -= 5;
+    }
+  }
+}
+
+
+//maybe use a select size key where they can type in the exact value
+function keyToChangeSize() {
+}
 
 
 //when color from pallete is clicked on, color of pen changes
@@ -117,64 +178,6 @@ function chooseColor() {
     if (mouseY > 495 && mouseY < 525) {
       penColor = 'hotpink';
     }
-  }
-}
-
-function showPen() {
-  fill(penColor);
-  stroke(0, 0);
-  circle(mouseX, mouseY,  penSize);
-}
-
-function mousePressed() {
-  fill(penColor);
-  circle(mouseX, mouseY, penSize);
-}
-
-
-// Change direction when the user scrolls the mouse wheel.
-function mouseWheel(event) {
-  if (event.delta < 0) {
-    if (penSize >= 80) {
-      penSize = 1;
-    }
-
-    if (penSize < 5) {
-      penSize += 1;
-    }
-
-    else {
-      penSize += 5;
-    }
-  }
-
-  else {
-    if (penSize <= 1) {
-      penSize = 80;
-    }
-
-    if (penSize <= 5) {
-      penSize -= 1;
-    }
-
-    else {
-      penSize -= 5;
-    }
-  }
-}
-
-
-//maybe use a select size key where they can type in the exact value
-function keyToChangeSize() {
-}
-
-
-function showCursor() {
-  if (mouseX < 40) {
-    showCursor();
-  }
-  else {
-    noCursor();
   }
 }
 
