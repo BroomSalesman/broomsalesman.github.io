@@ -54,17 +54,16 @@ function draw() {
   //for choosing color
   mouseClicked();
 
-  showPen();
+  showCursor();
   drawPen();
 }
 
 
 
-function showPen() {
+function showCursor() {
   fill(penColor);
   if (mouseX >= 40) {
     noCursor();
-    //circle(mouseX, mouseY,  penSize);
 
   }
 
@@ -84,7 +83,7 @@ function drawPen() {
 
 
 
-// Change direction when the user scrolls the mouse wheel.
+//changes size of the pen
 function mouseWheel(event) {
   if (event.delta < 0) {
     if (penSize >= 80) {
