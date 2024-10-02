@@ -12,6 +12,7 @@
 
 let penColor = 'black';
 let penSize = 5;
+let colors = ['black', 'gray', 'white', 'red', 'orange', 'yellow', 'lime', 'green', 'turquoise', 'skyblue', 'royalblue', 'darkblue', 'indigo', '#a392cb', 'hotpink'];
 
 //pallete squares size
 let pltsize = 30;
@@ -19,22 +20,35 @@ let pltsize = 30;
 
 
 function setup() {
-  createCanvas(windowHeight, 550);
+  createCanvas(700, 550);
   background(255);
-  createPallete();
 }
 
 
 function draw() {
-  frameRate(120);
-  //background(255);
-  //noStroke();
+  frameRate(300);
 
-  chooseColor();
+  // To create color selector and menu items
+  fill(255);
+  noStroke();
+  rect(0, 0, 40, windowHeight);
+  line(40, 0, 40, 100);
+
+  for (i = 0; i < 15; i++) {
+    stroke('black');
+    strokeWeight(1);
+    pltBlock(5, 5 + i*35, pltsize, colors[i]);
+  }
+
+  stroke('black');
+  strokeWeight(1);
+  line(40, 0, 40, 1000);
+
+  //for choosing color
+  mouseClicked();
 
   showPen();
   drawPen();
-
 }
 
 
@@ -47,19 +61,20 @@ function showPen() {
 
   }
 
-  else if (mouseX < 38) {
+  else if (mouseX < 40) {
     cursor();
   }
 }
 
 
 function drawPen() {
-  if (mouseIsPressed && mouseX > 40) {
+  if (mouseIsPressed && mouseX > 55) {
     stroke(penColor);
     strokeWeight(penSize);
     line(pmouseX, pmouseY, mouseX, mouseY);
   }
 }
+
 
 
 // Change direction when the user scrolls the mouse wheel.
@@ -100,9 +115,9 @@ function keyToChangeSize() {
 
 
 //when color from pallete is clicked on, color of pen changes
-function chooseColor() {
+function mouseClicked() {
 
-  if (mouseIsPressed && mouseX > 5&&mouseX <= 30) {
+  if (mouseX <= 30) {
 
     //blacked pressed
     if (mouseY > 5 && mouseY < 35) {
@@ -186,56 +201,67 @@ function pltBlock(x, y, size, color) {
   square(x, y, size);
 }
 
-function createPallete() {
-  //pallete area
-  line (40, 0 , 40, 1000);
-  fill('lightgray');
-  rect(0, 0, 40, 1000);
 
-  //black
-  pltBlock(5, 5, pltsize, 'black');
-
-  //gray
-  pltBlock(5, 40, pltsize, 'gray');
-
-  //white
-  pltBlock(5, 75, pltsize, 'white');
-
-  //red
-  pltBlock(5, 110, pltsize, 'red');
-
-  //orange
-  pltBlock(5, 145, pltsize, 'orange');
-
-  //yellow
-  pltBlock(5, 180, pltsize, 'yellow');
-
-  //lime
-  pltBlock(5, 215, pltsize, 'lime');
-
-  //green
-  pltBlock(5, 250, pltsize, 'green');
-
-  //turquoise
-  pltBlock(5, 285, pltsize, 'turquoise');
-
-  //sky blue
-  pltBlock(5, 320, pltsize, 'skyblue');
-
-  //blue
-  pltBlock(5, 355, pltsize, 'royalblue');
-
-  //darkblue
-  pltBlock(5, 390, pltsize, 'darkblue');
-
-  //violet
-  pltBlock(5, 425, pltsize, 'indigo');
-
-  //lavendar
-  pltBlock(5, 460, pltsize, '#a392cb');
-
-  //pink
-  pltBlock(5, 495, pltsize, 'hotpink');
+function createPalette() {
+  noStroke();
+  line(40, height - 40, 40, 1000);
+  for (i = 0; i < 15; i++) {
+    pltBlock(5, 5 + i*35, pltsize, colors[i]);
+  }
 }
 
+
+//I thought showing the original code compared to
+
+//function createPallete() {
+//  //pallete area
+//  line (40, 0 , 40, 1000);
+//  fill('lightgray');
+//  rect(0, 0, 40, 1000);
+//
+//  //black
+//  pltBlock(5, 5, pltsize, 'black');
+//
+//  //gray
+//  pltBlock(5, 40, pltsize, 'gray');
+//
+//  //white
+//  pltBlock(5, 75, pltsize, 'white');
+//
+//  //red
+//  pltBlock(5, 110, pltsize, 'red');
+//
+//  //orange
+//  pltBlock(5, 145, pltsize, 'orange');
+//
+//  //yellow
+//  pltBlock(5, 180, pltsize, 'yellow');
+//
+//  //lime
+//  pltBlock(5, 215, pltsize, 'lime');
+//
+//  //green
+//  pltBlock(5, 250, pltsize, 'green');
+//
+//  //turquoise
+//  pltBlock(5, 285, pltsize, 'turquoise');
+//
+//  //sky blue
+//  pltBlock(5, 320, pltsize, 'skyblue');
+//
+//  //blue
+//  pltBlock(5, 355, pltsize, 'royalblue');
+//
+//  //darkblue
+//  pltBlock(5, 390, pltsize, 'darkblue');
+//
+//  //violet
+//  pltBlock(5, 425, pltsize, 'indigo');
+//
+//  //lavendar
+//  pltBlock(5, 460, pltsize, '#a392cb');
+//
+//  //pink
+//  pltBlock(5, 495, pltsize, 'hotpink');
+//}
 
