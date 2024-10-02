@@ -80,7 +80,7 @@ function showCursor() {
   }
 }
 
-
+//This is what "releases" the "ink" from the "pen"
 function drawPen() {
   if (mouseIsPressed && mouseX > 40) {
     stroke(penColor);
@@ -92,11 +92,22 @@ function drawPen() {
 function keyTyped() {
   //This changes the pen size
     if (key === "=") {
+      if (penSize > 80) {
+        penSize = 0;
+      }
+      else {
       penSize += 1;
+    }
       key = 'none';
     }
     if (key === "-") {
+
+      if (penSize <= 0) {
+        penSize = 80;
+      }
+      else {
       penSize -= 1;
+    }
       key = 'none';
     }
   }
@@ -104,7 +115,7 @@ function keyTyped() {
 //changes size of the pen
 function mouseWheel(event) {
   if (event.delta < 0) {
-    if (penSize >= 80) {
+    if (penSize > 80) {
       penSize = 1;
     }
 
@@ -118,7 +129,7 @@ function mouseWheel(event) {
   }
 
   else {
-    if (penSize <= 1) {
+    if (penSize < 1) {
       penSize = 80;
     }
 
