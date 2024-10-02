@@ -1,17 +1,24 @@
 /* eslint-disable quotes */
-// Project Title
-// Your Name
-// Date
+// Interactive Scene JS Paint
+// Labeeb Farooqi
+// September
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
+// I programmed the scroll wheel to change the size of the pen.
+//
+// HOW TO TO USE:
+// Press the X to clear the canvas (dont accidentally hover over it while drawing)
+// Press the colors to switch colors
+// Press + and - on your keyboard to fine tune the size of the pen
+// Use the scroll wheel to make coarse changes to the size of the pen
+//
 // Credits: https://editor.p5js.org/Apollo199999999/sketches/X0Y6tSIjJ
-// Used the line(pmouseX, pmouseY, mouseX, mouseY) code
+// Used the line(pmouseX, pmouseY, mouseX, mouseY) to save my project
 
 
 let penColor = 'black';
 let penSize = 5;
+let colors = ['black', 'gray', 'white', 'red', 'orange', 'yellow', 'lime', 'green', 'turquoise', 'skyblue', 'royalblue', 'darkblue', 'indigo', '#a392cb', 'hotpink'];
 
 //pallete squares size
 let pltsize = 30;
@@ -19,40 +26,61 @@ let pltsize = 30;
 
 
 function setup() {
-  createCanvas(windowHeight, 550);
+  createCanvas(700, 700);
   background(255);
-  createPallete();
 }
-
 
 function draw() {
-  frameRate(120);
-  //background(255);
-  //noStroke();
+  frameRate(300);
 
-  chooseColor();
+  // To create color selector, making it a function caused major problems with the stroke settings and coloring on menu
+  fill(255);
+  noStroke();
+  rect(0, 0, 40, windowHeight);
+  line(40, 0, 40, 100);
 
-  showPen();
+  for (i = 0; i < 15; i++) {
+    stroke('black');
+    strokeWeight(1);
+    pltBlock(5, 5 + i*35, pltsize, colors[i]);
+  }
+
+  //clear canvas button
+  strokeWeight(5);
+  stroke('red');
+  fill('white');
+  square(5, 535, 30);
+
+  strokeWeight(4);
+  line(5, 535, 35, 535 + 30);
+  line(35, 535, 5, 535 + 30);
+
+ //divider between menu and canvas
+  stroke('black');
+  strokeWeight(1);
+  line(40, 0, 40, 1000);
+
+
+  //for choosing color and clearing
+  pressButtons();
+  keyTyped();
+  showCursor();
   drawPen();
-
 }
 
 
 
-function showPen() {
-  fill(penColor);
+function showCursor() {
   if (mouseX >= 40) {
-    noCursor();
-    //circle(mouseX, mouseY,  penSize);
-
+    cursor(CROSS);
   }
 
-  else if (mouseX < 38) {
+  else if (mouseX < 40) {
     cursor();
   }
 }
 
-
+//This is what "releases" the "ink" from the "pen"
 function drawPen() {
   if (mouseIsPressed && mouseX > 40) {
     stroke(penColor);
@@ -61,11 +89,33 @@ function drawPen() {
   }
 }
 
+function keyTyped() {
+  //This changes the pen size
+    if (key === "=") {
+      if (penSize > 80) {
+        penSize = 0;
+      }
+      else {
+      penSize += 1;
+    }
+      key = 'none';
+    }
+    if (key === "-") {
 
-// Change direction when the user scrolls the mouse wheel.
+      if (penSize <= 0) {
+        penSize = 80;
+      }
+      else {
+      penSize -= 1;
+    }
+      key = 'none';
+    }
+  }
+
+//changes size of the pen
 function mouseWheel(event) {
   if (event.delta < 0) {
-    if (penSize >= 80) {
+    if (penSize > 80) {
       penSize = 1;
     }
 
@@ -79,7 +129,7 @@ function mouseWheel(event) {
   }
 
   else {
-    if (penSize <= 1) {
+    if (penSize < 1) {
       penSize = 80;
     }
 
@@ -93,16 +143,10 @@ function mouseWheel(event) {
   }
 }
 
-
-//maybe use a select size key where they can type in the exact value
-function keyToChangeSize() {
-}
-
-
 //when color from pallete is clicked on, color of pen changes
-function chooseColor() {
+function pressButtons() {
 
-  if (mouseIsPressed && mouseX > 5&&mouseX <= 30) {
+  if (mouseIsPressed && mouseX >= 5 && mouseX <= 35) {
 
     //blacked pressed
     if (mouseY > 5 && mouseY < 35) {
@@ -178,64 +222,75 @@ function chooseColor() {
     if (mouseY > 495 && mouseY < 525) {
       penColor = 'hotpink';
     }
+    //clear canvas
+    if (mouseY > 535 && mouseY < 565) {
+      clear();
+      setup();
+    }
   }
 }
-
 function pltBlock(x, y, size, color) {
   fill(color);
   square(x, y, size);
 }
 
-function createPallete() {
-  //pallete area
-  line (40, 0 , 40, 1000);
-  fill('lightgray');
-  rect(0, 0, 40, 1000);
-
-  //black
-  pltBlock(5, 5, pltsize, 'black');
-
-  //gray
-  pltBlock(5, 40, pltsize, 'gray');
-
-  //white
-  pltBlock(5, 75, pltsize, 'white');
-
-  //red
-  pltBlock(5, 110, pltsize, 'red');
-
-  //orange
-  pltBlock(5, 145, pltsize, 'orange');
-
-  //yellow
-  pltBlock(5, 180, pltsize, 'yellow');
-
-  //lime
-  pltBlock(5, 215, pltsize, 'lime');
-
-  //green
-  pltBlock(5, 250, pltsize, 'green');
-
-  //turquoise
-  pltBlock(5, 285, pltsize, 'turquoise');
-
-  //sky blue
-  pltBlock(5, 320, pltsize, 'skyblue');
-
-  //blue
-  pltBlock(5, 355, pltsize, 'royalblue');
-
-  //darkblue
-  pltBlock(5, 390, pltsize, 'darkblue');
-
-  //violet
-  pltBlock(5, 425, pltsize, 'indigo');
-
-  //lavendar
-  pltBlock(5, 460, pltsize, '#a392cb');
-
-  //pink
-  pltBlock(5, 495, pltsize, 'hotpink');
+function createPalette() {
+  line(40, height - 40, 40, 1000);
+  for (i = 0; i < 15; i++) {
+    pltBlock(5, 5 + i*35, pltsize, colors[i]);
+  }
 }
 
 
+//I thought showing the original code compared to
+
+//function createPallete() {
+//  //pallete area
+//  line (40, 0 , 40, 1000);
+//  fill('lightgray');
+//  rect(0, 0, 40, 1000);
+//
+//  //black
+//  pltBlock(5, 5, pltsize, 'black');
+//
+//  //gray
+//  pltBlock(5, 40, pltsize, 'gray');
+//
+//  //white
+//  pltBlock(5, 75, pltsize, 'white');
+//
+//  //red
+//  pltBlock(5, 110, pltsize, 'red');
+//
+//  //orange
+//  pltBlock(5, 145, pltsize, 'orange');
+//
+//  //yellow
+//  pltBlock(5, 180, pltsize, 'yellow');
+//
+//  //lime
+//  pltBlock(5, 215, pltsize, 'lime');
+//
+//  //green
+//  pltBlock(5, 250, pltsize, 'green');
+//
+//  //turquoise
+//  pltBlock(5, 285, pltsize, 'turquoise');
+//
+//  //sky blue
+//  pltBlock(5, 320, pltsize, 'skyblue');
+//
+//  //blue
+//  pltBlock(5, 355, pltsize, 'royalblue');
+//
+//  //darkblue
+//  pltBlock(5, 390, pltsize, 'darkblue');
+//
+//  //violet
+//  pltBlock(5, 425, pltsize, 'indigo');
+//
+//  //lavendar
+//  pltBlock(5, 460, pltsize, '#a392cb');
+//
+//  //pink
+//  pltBlock(5, 495, pltsize, 'hotpink');
