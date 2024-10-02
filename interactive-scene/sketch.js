@@ -20,10 +20,17 @@ let pltsize = 30;
 
 
 function setup() {
-  createCanvas(700, 550);
+  createCanvas(700, 700);
   background(255);
+  customColorPicker();
+
 }
 
+function customColorPicker() {
+  colorPicker = createColorPicker('#000000');
+  colorPicker.position(-15, height - 100);
+
+}
 
 function draw() {
   frameRate(300);
