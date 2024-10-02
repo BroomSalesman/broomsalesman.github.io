@@ -114,12 +114,6 @@ function mouseWheel(event) {
   }
 }
 
-
-//maybe use a select size key where they can type in the exact value
-function keyToChangeSize() {
-}
-
-
 //when color from pallete is clicked on, color of pen changes
 function mouseClicked() {
 
