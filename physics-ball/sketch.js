@@ -6,6 +6,9 @@
 // - describe what you did to take this project "above and beyond"
 
 
+ay = 9.8
+ax =
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
