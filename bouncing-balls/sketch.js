@@ -1,9 +1,11 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Bouncing Balls Demo
+// October 3. 2024
+
+let theBall = {
+  x: 200,
+  y: 300,
+  radius: 50,
+};
 
 
 function setup() {
@@ -11,5 +13,8 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(10);
+
+  //show ball
+  circle(theBall.x, theBall.y, theBall.radius);
 }
