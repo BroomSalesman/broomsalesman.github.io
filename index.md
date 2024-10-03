@@ -6,6 +6,8 @@
 - [Chess Board](chess-board)
 - [Bordering Square](bordering-square)
 - [Bouncing Balls](bouncing-balls)
+- [Physics Ball](physics-ball)
+-[Sand Simulator](sand-simulator)
 -
 ## Projects
 - [Interactive Scene](interactive-scene)
