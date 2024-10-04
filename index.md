@@ -6,8 +6,12 @@
 - [Chess Board](chess-board)
 - [Bordering Square](bordering-square)
 - [Bouncing Balls](bouncing-balls)
-- [Physics Ball](physics-ball)
--[Sand Simulator](sand-simulator)
+- [Generative Art](generative-art)
 -
 ## Projects
 - [Interactive Scene](interactive-scene)
+
+## Not Started
+- [Physics Ball](physics-ball)
+-[Sand Simulator](sand-simulator)
+-
