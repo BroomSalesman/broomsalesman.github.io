@@ -12,8 +12,9 @@
 -
 ## Projects
 - [Interactive Scene](interactive-scene)
+- [Arrays & Object Notations](array-object)
 
 ## Not Started
 - [Physics Ball](physics-ball)
 -[Sand Simulator](sand-simulator)
--
+

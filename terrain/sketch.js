@@ -1,8 +1,7 @@
 // Terrain Generation
 // October 7, 2024
-
 let terrain = [];
-const NUMBER_OF_RECTS = 20;
+const NUMBER_OF_RECTS = 2000;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -18,7 +17,6 @@ function draw() {
   }
 }
 
-
 function generateTerrain(widthOfRect) {
   let time = 0;
   let deltaTime = 0.001;
@@ -29,6 +27,7 @@ function generateTerrain(widthOfRect) {
     time += deltaTime;
   }
 }
+
 
 
 function spawnRectangle(leftSide, rectHeight, rectWidth) {
