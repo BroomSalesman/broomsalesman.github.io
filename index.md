@@ -10,7 +10,8 @@
 - [Perlin Noise Ball](perlin)
 - [Terrain Generation](terrain)
 - [Popping Bubbles](bubbles)
--
+- [Sound Effects Demo](sound-fx)
+
 ## Projects
 - [Interactive Scene](interactive-scene)
 - [Arrays & Object Notations](array-object)
@@ -18,4 +19,3 @@
 ## Not Started
 - [Physics Ball](physics-ball)
 -[Sand Simulator](sand-simulator)
-
