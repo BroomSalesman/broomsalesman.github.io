@@ -9,6 +9,7 @@
 - [Generative Art](generative-art)
 - [Perlin Noise Ball](perlin)
 - [Terrain Generation](terrain)
+- [Popping Bubbles](bubbles)
 -
 ## Projects
 - [Interactive Scene](interactive-scene)

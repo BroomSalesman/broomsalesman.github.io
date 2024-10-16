@@ -21,8 +21,8 @@ function draw() {
   for (let myTile of theTiles) {
     strokeWeight(myTile.weight);
     fill(myTile.red, myTile.green, myTile.blue);
-    elli(myTile.x1, myTile.y1, myTile.x2, myTile.y2);
-    quad(myTile.x1*-1, myTyle.y1, my)
+    line(myTile.x1, myTile.y1, myTile.x2, myTile.y2);
+    quad(myTile.x1*-1, myTile.y1, my);
   }
 }
 
