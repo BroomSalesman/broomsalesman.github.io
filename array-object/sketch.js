@@ -35,9 +35,11 @@ function changeDifficulty() {
 
 
 
-function spawnEasyObstacle() {
-  obstacle = {
-    difficulty: diffLevels[random(diffLevels.length)],
+function spawnPaintBall() {
+  paintBall = {
+    radius: 5,
+
+
   }
 }
 
