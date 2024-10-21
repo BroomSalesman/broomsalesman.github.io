@@ -1,84 +1,133 @@
-let world;
-let marbles = [];
-let marbleBodies = [];
-let numMarbles = 50; // Number of marbles
-let radiusMin = 10;
-let radiusMax = 20;
-let ground;
+let player;
+let obstacles = [];
+let trackWidth = 300;
+let laneWidth = 100;
+let numLanes = 3;
+let gravity = 1;
+let jumpStrength = -15;
+let speed = 5;
+let score = 0;
 
 function setup() {
-  createCanvas(800, 600, WEBGL);
-
-  // Initialize cannon.js physics world
-  world = new CANNON.World();
-  world.gravity.set(0, 0, -9.82); // Set gravity to simulate downward pull
-  world.broadphase = new CANNON.NaiveBroadphase();
-  world.solver.iterations = 10;
-
-  // Create a ground plane in the physics world
-  let groundShape = new CANNON.Plane();
-  let groundMaterial = new CANNON.Material();
-  ground = new CANNON.Body({
-    mass: 0, // Ground doesn't move, so mass is 0
-    material: groundMaterial
-  });
-  ground.addShape(groundShape);
-  ground.quaternion.setFromEuler(-Math.PI / 2, 0, 0); // Rotate to be horizontal
-  world.addBody(ground);
-
-  // Create marbles
-  for (let i = 0; i < numMarbles; i++) {
-    let radius = random(radiusMin, radiusMax);
-    let x = random(-width / 4, width / 4);
-    let y = random(-height / 4, height / 4);
-    let z = random(50, 300);
-
-    // Create marble's physical body in cannon.js
-    let marbleShape = new CANNON.Sphere(radius);
-    let marbleMaterial = new CANNON.Material();
-    let marbleBody = new CANNON.Body({
-      mass: 1, // Mass of the marble
-      position: new CANNON.Vec3(x, y, z),
-      shape: marbleShape,
-      material: marbleMaterial
-    });
-    marbleBody.linearDamping = 0.1; // Reduce speed gradually to simulate friction
-    world.addBody(marbleBody);
-
-    // Store marble data for rendering
-    marbleBodies.push(marbleBody);
-    marbles.push({
-      radius: radius,
-      color: [random(255), random(255), random(255)]
-    });
-  }
+  createCanvas(800, 600);
+  player = createPlayer();
 }
 
 function draw() {
-  background(200);
-  orbitControl(); // Allow mouse control to orbit the camera
+  background(135, 206, 250); // Sky blue background
 
-  // Step the physics simulation forward
-  world.step(1 / 60);
+  // Update and draw track
+  drawTrack();
+  generateObstacles();
+  handleObstacles();
 
-  // Draw the ground plane
-  push();
-  translate(0, 0, 0);
-  rotateX(HALF_PI);
-  fill(150);
-  plane(width, height);
-  pop();
+  // Update and draw player
+  updatePlayer();
+  displayPlayer();
 
-  // Render each marble
-  for (let i = 0; i < marbles.length; i++) {
-    let marble = marbles[i];
-    let marbleBody = marbleBodies[i];
+  displayScore();
+}
 
-    push();
-    translate(marbleBody.position.x, marbleBody.position.y, marbleBody.position.z);
-    fill(marble.color);
-    noStroke();
-    sphere(marble.radius);
-    pop();
+// Function to create player object
+function createPlayer() {
+  return {
+    x: laneWidth / 2,
+    y: height - 50,
+    size: 50,
+    velocityY: 0,
+    lane: 1,
+    isJumping: false,
+  };
+}
+
+// Function to draw the track with lanes
+function drawTrack() {
+  for (let i = 0; i < numLanes; i++) {
+    stroke(255);
+    line(i * laneWidth, 0, i * laneWidth, height);
   }
+}
+
+// Update player position with jumping and gravity
+function updatePlayer() {
+  if (player.isJumping) {
+    player.velocityY += gravity;
+    player.y += player.velocityY;
+
+    // Check if player lands on the ground
+    if (player.y >= height - 50) {
+      player.y = height - 50;
+      player.velocityY = 0;
+      player.isJumping = false;
+    }
+  }
+}
+
+// Display the player as a rectangle (simplified for now)
+function displayPlayer() {
+  fill(255, 0, 0);
+  rect(player.lane * laneWidth + laneWidth / 2 - player.size / 2, player.y, player.size, player.size);
+}
+
+// Handle key input for lane-switching and jumping
+function keyPressed() {
+  if (keyCode === LEFT_ARROW && player.lane > 0) {
+    player.lane -= 1;
+  }
+  if (keyCode === RIGHT_ARROW && player.lane < numLanes - 1) {
+    player.lane += 1;
+  }
+  if (key === ' ' && !player.isJumping) {
+    player.isJumping = true;
+    player.velocityY = jumpStrength;
+  }
+}
+
+// Generate obstacles randomly in lanes
+function generateObstacles() {
+  if (frameCount % 60 === 0) {
+    let obstacle = {
+      x: width,
+      y: height - 50,
+      lane: floor(random(numLanes)),
+      size: 40
+    };
+    obstacles.push(obstacle);
+  }
+}
+
+// Move and display obstacles, check for collisions
+function handleObstacles() {
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    let obstacle = obstacles[i];
+    obstacle.x -= speed; // Move the obstacle left
+
+    // Draw the obstacle as a black rectangle
+    fill(0);
+    rect(obstacle.x + obstacle.lane * laneWidth, obstacle.y, obstacle.size, obstacle.size);
+
+    // Check for collision with the player
+    if (
+      player.lane === obstacle.lane &&
+      player.y + player.size > obstacle.y &&
+      player.y < obstacle.y + obstacle.size &&
+      abs(player.lane * laneWidth + laneWidth / 2 - obstacle.x) < player.size / 2
+    ) {
+      console.log("Collision detected! Game Over.");
+      noLoop(); // Stop the game loop
+    }
+
+    // Remove the obstacle if it goes off-screen
+    if (obstacle.x < -obstacle.size) {
+      obstacles.splice(i, 1);
+      score++;
+    }
+  }
+}
+
+// Display the score at the top of the screen
+function displayScore() {
+  fill(0);
+  textSize(24);
+  text(`Score: ${score}`, 10, 30);
 }
