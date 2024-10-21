@@ -2,7 +2,6 @@ let song;
 let arrows = [];
 let arrowSpeed = 5;
 let arrowKeys = ['UP', 'DOWN', 'LEFT', 'RIGHT'];
-let currentBeatIndex = 0;
 let beatInterval = 600; // Adjust this to sync with the song's beat
 
 let lastArrowTime = 0;
@@ -33,6 +32,8 @@ function draw() {
     text("Press Start to Begin", width / 2, height / 2);
     return;
   }
+
+  updateArrows(); // Add this to spawn arrows based on the beat interval
 
   // Draw arrows
   for (let i = arrows.length - 1; i >= 0; i--) {
@@ -96,7 +97,15 @@ class Arrow {
 
   display() {
     fill(255);
-    triangle(this.x, this.y, this.x - 20, this.y + 40, this.x + 20, this.y + 40);
+    if (this.direction === 'UP') {
+      triangle(this.x, this.y, this.x - 20, this.y + 40, this.x + 20, this.y + 40);
+    } else if (this.direction === 'DOWN') {
+      triangle(this.x, this.y + 40, this.x - 20, this.y, this.x + 20, this.y);
+    } else if (this.direction === 'LEFT') {
+      triangle(this.x, this.y, this.x + 40, this.y - 20, this.x + 40, this.y + 20);
+    } else if (this.direction === 'RIGHT') {
+      triangle(this.x + 40, this.y, this.x, this.y - 20, this.x, this.y + 20);
+    }
   }
 
   matchesKey(key) {
