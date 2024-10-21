@@ -1,129 +1,84 @@
-let song;
-let arrows = [];
-let arrowSpeed = 5;
-let arrowKeys = ['UP', 'DOWN', 'LEFT', 'RIGHT'];
-let beatInterval = 600; // Adjust this to sync with the song's beat
-
-let lastArrowTime = 0;
-let gameStarted = false;
-let score = 0;
-let gameOver = false;
-let feedbackText = '';
-
-function preload() {
-  song = loadSound('Port Antonio [ ezmp3.cc ].mp3');
-}
+let world;
+let marbles = [];
+let marbleBodies = [];
+let numMarbles = 50; // Number of marbles
+let radiusMin = 10;
+let radiusMax = 20;
+let ground;
 
 function setup() {
-  createCanvas(700, 600);
-  textSize(32);
-  textAlign(CENTER, CENTER);
+  createCanvas(800, 600, WEBGL);
 
-  let startButton = createButton('Start Game');
-  startButton.position(width / 2 - 40, height / 2 + 50);
-  startButton.mousePressed(startGame);
+  // Initialize cannon.js physics world
+  world = new CANNON.World();
+  world.gravity.set(0, 0, -9.82); // Set gravity to simulate downward pull
+  world.broadphase = new CANNON.NaiveBroadphase();
+  world.solver.iterations = 10;
+
+  // Create a ground plane in the physics world
+  let groundShape = new CANNON.Plane();
+  let groundMaterial = new CANNON.Material();
+  ground = new CANNON.Body({
+    mass: 0, // Ground doesn't move, so mass is 0
+    material: groundMaterial
+  });
+  ground.addShape(groundShape);
+  ground.quaternion.setFromEuler(-Math.PI / 2, 0, 0); // Rotate to be horizontal
+  world.addBody(ground);
+
+  // Create marbles
+  for (let i = 0; i < numMarbles; i++) {
+    let radius = random(radiusMin, radiusMax);
+    let x = random(-width / 4, width / 4);
+    let y = random(-height / 4, height / 4);
+    let z = random(50, 300);
+
+    // Create marble's physical body in cannon.js
+    let marbleShape = new CANNON.Sphere(radius);
+    let marbleMaterial = new CANNON.Material();
+    let marbleBody = new CANNON.Body({
+      mass: 1, // Mass of the marble
+      position: new CANNON.Vec3(x, y, z),
+      shape: marbleShape,
+      material: marbleMaterial
+    });
+    marbleBody.linearDamping = 0.1; // Reduce speed gradually to simulate friction
+    world.addBody(marbleBody);
+
+    // Store marble data for rendering
+    marbleBodies.push(marbleBody);
+    marbles.push({
+      radius: radius,
+      color: [random(255), random(255), random(255)]
+    });
+  }
 }
 
 function draw() {
-  background(50);
+  background(200);
+  orbitControl(); // Allow mouse control to orbit the camera
 
-  if (!gameStarted) {
-    fill(255);
-    text("Press Start to Begin", width / 2, height / 2);
-    return;
-  }
+  // Step the physics simulation forward
+  world.step(1 / 60);
 
-  updateArrows(); // Add this to spawn arrows based on the beat interval
+  // Draw the ground plane
+  push();
+  translate(0, 0, 0);
+  rotateX(HALF_PI);
+  fill(150);
+  plane(width, height);
+  pop();
 
-  // Draw arrows
-  for (let i = arrows.length - 1; i >= 0; i--) {
-    arrows[i].update();
-    arrows[i].display();
-    if (arrows[i].y > height) {
-      arrows.splice(i, 1);
-      gameOver = true; // End game if an arrow reaches the bottom
-    }
-  }
+  // Render each marble
+  for (let i = 0; i < marbles.length; i++) {
+    let marble = marbles[i];
+    let marbleBody = marbleBodies[i];
 
-  fill(255);
-  text("Score: " + score, width / 2, 30);
-
-  if (gameOver) {
-    fill('red');
-    text('Game Over!', width / 2, height / 2);
-    noLoop();
-  }
-
-  // Display feedback
-  fill(255);
-  text(feedbackText, width / 2, height - 40);
-}
-
-function startGame() {
-  song.play();
-  gameStarted = true;
-  lastArrowTime = millis();
-  loop();
-}
-
-function keyPressed() {
-  let correct = false;
-
-  for (let i = arrows.length - 1; i >= 0; i--) {
-    if (arrows[i].matchesKey(keyCode) && abs(arrows[i].y - height + 100) < 50) {
-      arrows.splice(i, 1);
-      score++;
-      correct = true;
-      break;
-    }
-  }
-
-  feedbackText = correct ? 'Great!' : 'Miss!';
-  setTimeout(() => feedbackText = '', 500); // Clear feedback after a short delay
-}
-
-class Arrow {
-  constructor(direction) {
-    this.direction = direction;
-    this.x = direction === 'LEFT' ? width / 4 :
-             direction === 'DOWN' ? width / 2 - 50 :
-             direction === 'UP' ? width / 2 + 50 : width * 3 / 4;
-    this.y = 0;
-  }
-
-  update() {
-    this.y += arrowSpeed;
-  }
-
-  display() {
-    fill(255);
-    if (this.direction === 'UP') {
-      triangle(this.x, this.y, this.x - 20, this.y + 40, this.x + 20, this.y + 40);
-    } else if (this.direction === 'DOWN') {
-      triangle(this.x, this.y + 40, this.x - 20, this.y, this.x + 20, this.y);
-    } else if (this.direction === 'LEFT') {
-      triangle(this.x, this.y, this.x + 40, this.y - 20, this.x + 40, this.y + 20);
-    } else if (this.direction === 'RIGHT') {
-      triangle(this.x + 40, this.y, this.x, this.y - 20, this.x, this.y + 20);
-    }
-  }
-
-  matchesKey(key) {
-    return (this.direction === 'UP' && key === UP_ARROW) ||
-           (this.direction === 'DOWN' && key === DOWN_ARROW) ||
-           (this.direction === 'LEFT' && key === LEFT_ARROW) ||
-           (this.direction === 'RIGHT' && key === RIGHT_ARROW);
-  }
-}
-
-function spawnArrow() {
-  let randomDirection = random(arrowKeys);
-  arrows.push(new Arrow(randomDirection));
-}
-
-function updateArrows() {
-  if (millis() - lastArrowTime > beatInterval) {
-    spawnArrow();
-    lastArrowTime = millis();
+    push();
+    translate(marbleBody.position.x, marbleBody.position.y, marbleBody.position.z);
+    fill(marble.color);
+    noStroke();
+    sphere(marble.radius);
+    pop();
   }
 }
