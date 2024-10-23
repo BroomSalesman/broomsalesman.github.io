@@ -12,6 +12,7 @@
 - [Popping Bubbles](bubbles)
 - [Sound Effects Demo](sound-fx)
 - [Translation and Rotation](translate-rotate)
+- [2D Array](grid)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
