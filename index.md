@@ -13,6 +13,7 @@
 - [Sound Effects Demo](sound-fx)
 - [Translation and Rotation](translate-rotate)
 - [2D Array](grid)
+- [Game of Life](game-of-life)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
