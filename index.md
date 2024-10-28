@@ -13,10 +13,13 @@
 - [Sound Effects Demo](sound-fx)
 - [Translation and Rotation](translate-rotate)
 - [2D Array](grid)
+- [Game of Life](game-of-life)
+- [Rectangle Grid](rect-grid)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
 - [Arrays & Object Notations](array-object)
+- [Grid Based Assignment](grid-based)
 
 ## Not Started
 - [Physics Ball](physics-ball)
