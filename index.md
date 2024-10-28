@@ -19,6 +19,7 @@
 ## Projects
 - [Interactive Scene](interactive-scene)
 - [Arrays & Object Notations](array-object)
+- [Grid Based Assignment](grid-based)
 
 ## Not Started
 - [Physics Ball](physics-ball)
