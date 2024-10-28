@@ -14,6 +14,7 @@
 - [Translation and Rotation](translate-rotate)
 - [2D Array](grid)
 - [Game of Life](game-of-life)
+- [Rectangle Grid](rect-grid)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
