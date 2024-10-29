@@ -3,7 +3,7 @@
 // October 15, 2024
 //
 // Extra for Experts:
-// - 3D arrows flying from different angles, organized and cleaned code structure.
+// - Used WEBGL
 
 let shapes = [];
 let player;
@@ -20,8 +20,6 @@ let spawnRate = 80;
 
 function preload() {
   myFont = loadFont('font.ttf');
-  arrowTexture = loadImage("arrow.png");
-  arrowModel = loadModel('flecha.obj', true);
 }
 
 function setup() {
@@ -71,7 +69,7 @@ function calculateAngleToCamera() {
   // I had to use AI for this
   let cameraPos = createVector(cameraControl.eyeX, cameraControl.eyeY, cameraControl.eyeZ);
   let angleToCamera = atan2(cameraPos.x, cameraPos.z);
-  return(angleToCamera)
+  return angleToCamera;
 }
 
 function setCameraPosition() {
@@ -101,9 +99,9 @@ function updateLevelTimer() {
 // Function to draw the ground
 function drawGround() {
   push();
-  fill(100, 150, 100);  // Ground color
-  rotateX(HALF_PI);  // Rotate to horizontal
-  plane(1000, 1000);  // Smaller plane size
+  fill(100, 150, 100);
+  rotateX(HALF_PI);
+  plane(1000, 1000);
   pop();
 }
 
@@ -111,7 +109,7 @@ function drawGround() {
 function displayPlayer() {
   push();
   fill(player.color);
-  translate(player.x, player.y, player.z);  // Use y position
+  translate(player.x, player.y, player.z);
   box(player.size);  // Player is represented by a cube
   pop();
 }
@@ -123,27 +121,33 @@ function spawnArrow() {
     y: -300,
     z: random(-300, 300),
     speedY: random(3, 7),
-    size: random(20, 50)  // Random size for each sphere
+    size: random(10, 25)  // Random size for each sphere
   };
   shapes.push(newSphere);
 }
 
 // Update and render arrows
 function updateArrow() {
-  let sphere = shapes[i];
-  sphere.y += sphere.speedY;
+  if (frameCount % spawnRate === 0 && !gameOver) {
+    spawnArrow();
+  }
 
-  // Remove spheres that fall below the ground
-  if (sphere.y > 200) {
-    shapes.splice(i, 1);
-    player.score++;
-  } else {
-    // Render the sphere
-    push();
-    translate(sphere.x, sphere.y, sphere.z);
-    fill(200, 0, 200); // Color the sphere
-    sphere(sphere.size / 2);  // Draw sphere with specified size
-    pop();
+  for (let i = shapes.length - 1; i >= 0; i--) {
+    let sphere = shapes[i];
+    sphere.y += sphere.speedY;
+
+    // Remove spheres that touch platform
+    if (sphere.y > 200) {
+      shapes.splice(i, 1);
+      player.score++;
+    }
+    else {
+      push();
+      translate(sphere.x, sphere.y, sphere.z);
+      fill(200, 0, 200);
+      sphere(sphere.size / 2);
+      pop();
+    }
   }
 }
 
@@ -194,7 +198,7 @@ function checkCollisions() {
 
 function displayScore() {
   push();
-  rotateY(calculateAngleToCamera())
+  rotateY(calculateAngleToCamera());
   fill(255);
   textSize(24);
   textAlign(LEFT);
@@ -208,7 +212,7 @@ function displayLevel() {
 
   push();
   fill(255);
-  rotateY(calculateAngleToCamera())
+  rotateY(calculateAngleToCamera());
   textSize(24);
   textAlign(RIGHT);
   text(`Level: ${level}`, width / 2 - 20, -height / 2 + 40);
@@ -229,7 +233,8 @@ function keyPressed() {
   if (menu && keyCode === ENTER) {
     menu = false;  // Start the game and exit the menu
     levelTimer = millis();  // Reset timer for the first level
-  } else if (gameOver && keyCode === ENTER) {
+  }
+  else if (gameOver && keyCode === ENTER) {
     resetGame();  // Reset game state
   }
 }
@@ -256,4 +261,4 @@ function resetGame() {
   level = 1;
   spawnRate = 120;
   levelTimer = millis();
-};
+}

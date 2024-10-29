@@ -1,4 +1,4 @@
-//  Grid Demo
+//  Character Grid
 // Labeeb Farooqi
 // October 29, 2024
 
@@ -67,11 +67,11 @@ function toggleCell(x, y) {
 
 function keyPressed() {
   if (key === 'r') {
-    grid = generateRandomGrid(GRID_SIZE, GRID_SIZE)
+    grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
   }
 
   if (key === 'e') {
-    grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE)
+    grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
 }
 
