@@ -11,8 +11,6 @@ let gameOver = false;
 let menu = true; // Menu state variable
 let cameraControl;
 let myFont;
-let arrowTexture;
-let arrowModel;
 
 
 let level = 1;
@@ -120,39 +118,32 @@ function displayPlayer() {
 
 // Spawn falling arrow objects
 function spawnArrow() {
-  let newArrow = {
+  let newSphere = {
     x: random(-width / 2, width / 2),
     y: -300,
     z: random(-300, 300),
-    speedY: random(3, 7)
+    speedY: random(3, 7),
+    size: random(20, 50)  // Random size for each sphere
   };
-  shapes.push(newArrow);
+  shapes.push(newSphere);
 }
 
 // Update and render arrows
 function updateArrow() {
-  //what frameCount%spawnRate does is it makes sure the arrow spawn in intervals, rather than in every frame. 37%40 would get you no arrows, 40%
-  if (frameCount % spawnRate === 0 && !gameOver) {
-    spawnArrow();
-  } e
+  let sphere = shapes[i];
+  sphere.y += sphere.speedY;
 
-  for (let i = shapes.length - 1; i >= 0; i--) {
-    let arrow = shapes[i];
-    arrow.y += arrow.speedY;
-
-    // Remove arrows that fall below the ground
-    if (arrow.y > 200) {
-      shapes.splice(i, 1);
-      player.score++;
-    }
-    else {
-      push();
-      translate(arrow.x, arrow.y, arrow.z);
-      rotateZ(-1.5708)
-      texture(arrowTexture);
-      model(arrowModel);
-      pop();
-    }
+  // Remove spheres that fall below the ground
+  if (sphere.y > 200) {
+    shapes.splice(i, 1);
+    player.score++;
+  } else {
+    // Render the sphere
+    push();
+    translate(sphere.x, sphere.y, sphere.z);
+    fill(200, 0, 200); // Color the sphere
+    sphere(sphere.size / 2);  // Draw sphere with specified size
+    pop();
   }
 }
 
