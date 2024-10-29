@@ -16,7 +16,7 @@ let myFont;
 let level = 1;
 let levelTime = 30;
 let levelTimer;
-let spawnRate = 80;
+let spawnRate = 75;
 
 function preload() {
   myFont = loadFont('font.ttf');
@@ -57,7 +57,7 @@ function initializeGame() {
     z: 200,
     size: 40,
     speed: 5,
-    color: 'blue',
+    color: 'rgb(75,75,145)',
     score: 0
   };
 
@@ -99,6 +99,7 @@ function updateLevelTimer() {
 // Function to draw the ground
 function drawGround() {
   push();
+  noStroke();
   fill(100, 150, 100);
   rotateX(HALF_PI);
   plane(1000, 1000);
@@ -110,7 +111,7 @@ function displayPlayer() {
   push();
   fill(player.color);
   translate(player.x, player.y, player.z);
-  box(player.size);  // Player is represented by a cube
+  box(player.size);
   pop();
 }
 
@@ -120,7 +121,7 @@ function spawnArrow() {
     x: random(-width / 2, width / 2),
     y: -300,
     z: random(-300, 300),
-    speedY: random(3, 7),
+    speedY: random(3, 8),
     size: random(10, 25)  // Random size for each sphere
   };
   shapes.push(newSphere);
@@ -133,19 +134,21 @@ function updateArrow() {
   }
 
   for (let i = shapes.length - 1; i >= 0; i--) {
-    let sphere = shapes[i];
-    sphere.y += sphere.speedY;
+    let ball = shapes[i];
+    ball.y += ball.speedY;
 
     // Remove spheres that touch platform
-    if (sphere.y > 200) {
+    if (ball.y > 200) {
       shapes.splice(i, 1);
       player.score++;
     }
     else {
+      lights();
       push();
-      translate(sphere.x, sphere.y, sphere.z);
+      noStroke();
+      translate(ball.x, ball.y, ball.z);
       fill(200, 0, 200);
-      sphere(sphere.size / 2);
+      sphere(ball.size);
       pop();
     }
   }
