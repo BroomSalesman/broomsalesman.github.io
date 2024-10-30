@@ -8,7 +8,7 @@
 let shapes = [];
 let player;
 let gameOver = false;
-let menu = true; // Menu state variable
+let menu = true;
 let cameraControl;
 let myFont;
 
@@ -138,7 +138,7 @@ function updateArrow() {
     ball.y += ball.speedY;
 
     // Remove spheres that touch platform
-    if (ball.y > 200) {
+    if (ball.y > 0) {
       shapes.splice(i, 1);
       player.score++;
     }
@@ -147,7 +147,9 @@ function updateArrow() {
       push();
       noStroke();
       translate(ball.x, ball.y, ball.z);
-      fill(200, 0, 200);
+      fill(255);
+      specularMaterial(50);
+      shininess(200);
       sphere(ball.size);
       pop();
     }
@@ -234,11 +236,11 @@ function levelUp() {
 
 function keyPressed() {
   if (menu && keyCode === ENTER) {
-    menu = false;  // Start the game and exit the menu
+    menu = false; //exit menus
     levelTimer = millis();  // Reset timer for the first level
-  }
+    }
   else if (gameOver && keyCode === ENTER) {
-    resetGame();  // Reset game state
+    resetGame();
   }
 }
 
@@ -258,10 +260,11 @@ function resetGame() {
   shapes = [];
   player.score = 0;
   player.x = 0;
-  player.y = -40;
+  player.y = -20;
   player.z = 200;
   gameOver = false;
   level = 1;
   spawnRate = 120;
   levelTimer = millis();
 }
+
