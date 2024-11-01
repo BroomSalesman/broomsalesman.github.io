@@ -38,7 +38,7 @@ function draw() {
     drawGround();
     displayPlayer();
     movePlayer();
-    updateShape();
+    updateBall();
     checkCollisions();
     displayScore();
     displayLevel();
@@ -96,7 +96,7 @@ function updateLevelTimer() {
   }
 }
 
-// Function to draw the ground
+
 function drawGround() {
   push();
   noStroke();
@@ -116,21 +116,21 @@ function displayPlayer() {
 }
 
 // Spawn falling arrow objects
-function spawnArrow() {
+function spawnBall() {
   let newSphere = {
     x: random(-width / 2, width / 2),
     y: -300,
     z: random(-300, 300),
     speedY: random(3, 8),
-    size: random(10, 25)  // Random size for each sphere
+    size: 17
   };
   shapes.push(newSphere);
 }
 
-// Update and render arrows
-function updateArrow() {
+// Render and update ball position
+function updateBall() {
   if (frameCount % spawnRate === 0 && !gameOver) {
-    spawnArrow();
+    spawnBall();
   }
 
   for (let i = shapes.length - 1; i >= 0; i--) {
@@ -158,24 +158,24 @@ function updateArrow() {
 
 // Function to move the player
 function movePlayer() {
-  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {  // A key for left
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {  // A key
     player.x -= player.speed;  // Move left
   }
-  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {  // D key for right
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) { // D key
     player.x += player.speed;  // Move right
   }
-  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {  // W key for forward
+  if (keyIsDown(UP_ARROW) || keyIsDown(87)) { // W key
     player.z -= player.speed;  // Move forward
   }
-  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {  // S key for back
+  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) { // S
     player.z += player.speed;  // Move back
   }
 
-  // Constrain player movement within the bounds (X-axis for left-right movement)
-  player.x = constrain(player.x, -width / 2 + player.size / 2, width / 2 - player.size / 2);
+  // Constrain left and right movmen
+  player.x = constrain(player.x, -500 / 2 + player.size / 2, 500 / 2 - player.size / 2);
 
-  // Constrain player movement within the bounds (Z-axis for back-forth movement)
-  player.z = constrain(player.z, -400 + player.size / 2, 400 - player.size / 2);
+  // Constrain back and forth movement within 900 units
+  player.z = constrain(player.z, -450 + player.size / 2, 450 - player.size / 2);
 }
 
 // Function to detect collision between player and a shape
@@ -195,7 +195,6 @@ function checkCollisions() {
   for (let shape of shapes) {
     if (detectCollision(player, shape)) {
       gameOver = true;
-      break;
     }
   }
 }
@@ -207,13 +206,13 @@ function displayScore() {
   fill(255);
   textSize(24);
   textAlign(LEFT);
-  text(`Score: ${player.score}`, -width / 2 + 20, -height / 2 + 40);  //
+  text(`Score: ${player.score}`, -width / 2 + 20, -height / 2 + 40);
   pop();
 }
 
 function displayLevel() {
   let elapsedSeconds = Math.floor((millis() - levelTimer) / 1000); // Calculate elapsed time in seconds
-  let timeLeft = max(0, levelTime - elapsedSeconds); // Remaining time for the level
+  let timeLeft = max(0, levelTime - elapsedSeconds); // Remaining time for the level of difficulty
 
   push();
   fill(255);
@@ -235,10 +234,16 @@ function levelUp() {
 
 
 function keyPressed() {
+
   if (menu && keyCode === ENTER) {
     menu = false; //exit menus
     levelTimer = millis();  // Reset timer for the first level
-    }
+  }
+
+  else if (menu === false && key === " ") {
+
+  }
+
   else if (gameOver && keyCode === ENTER) {
     resetGame();
   }
