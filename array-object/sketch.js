@@ -3,12 +3,12 @@
 // October 15, 2024
 //
 // Extra for Experts:
-// - 3D arrows flying from different angles, organized and cleaned code structure.
+// - Used WEBGL
 
 let shapes = [];
 let player;
 let gameOver = false;
-let menu = true; // Menu state variable
+let menu = true;
 let cameraControl;
 let myFont;
 
@@ -16,12 +16,10 @@ let myFont;
 let level = 1;
 let levelTime = 30;
 let levelTimer;
-let spawnRate = 80;
+let spawnRate = 75;
 
 function preload() {
   myFont = loadFont('font.ttf');
-  arrowTexture = loadImage("arrow.png");
-  arrowModel = loadModel('flecha.obj', true);
 }
 
 function setup() {
@@ -59,7 +57,7 @@ function initializeGame() {
     z: 200,
     size: 40,
     speed: 5,
-    color: 'blue',
+    color: 'rgb(75,75,145)',
     score: 0
   };
 
@@ -71,7 +69,7 @@ function calculateAngleToCamera() {
   // I had to use AI for this
   let cameraPos = createVector(cameraControl.eyeX, cameraControl.eyeY, cameraControl.eyeZ);
   let angleToCamera = atan2(cameraPos.x, cameraPos.z);
-  return(angleToCamera)
+  return angleToCamera;
 }
 
 function setCameraPosition() {
@@ -101,9 +99,10 @@ function updateLevelTimer() {
 // Function to draw the ground
 function drawGround() {
   push();
-  fill(100, 150, 100);  // Ground color
-  rotateX(HALF_PI);  // Rotate to horizontal
-  plane(1000, 1000);  // Smaller plane size
+  noStroke();
+  fill(100, 150, 100);
+  rotateX(HALF_PI);
+  plane(1000, 1000);
   pop();
 }
 
@@ -111,42 +110,47 @@ function drawGround() {
 function displayPlayer() {
   push();
   fill(player.color);
-  translate(player.x, player.y, player.z);  // Use y position
-  box(player.size);  // Player is represented by a cube
+  translate(player.x, player.y, player.z);
+  box(player.size);
   pop();
 }
 
 // Spawn falling arrow objects
-function spawnShape() {
-  let newShape = {
+function spawnArrow() {
+  let newSphere = {
     x: random(-width / 2, width / 2),
     y: -300,
     z: random(-300, 300),
-    speedY: random(3, 7)
+    speedY: random(3, 8),
+    size: random(10, 25)  // Random size for each sphere
   };
-  shapes.push(newShape);
+  shapes.push(newSphere);
 }
 
 // Update and render arrows
-function updateShape() {
-  //what frameCount%spawnRate does is it makes sure the arrow spawn in intervals, rather than in every frame. 37%40 would get you no arrows, 40%
+function updateArrow() {
   if (frameCount % spawnRate === 0 && !gameOver) {
-    spawnShape();
+    spawnArrow();
   }
 
   for (let i = shapes.length - 1; i >= 0; i--) {
-    let arrow = shapes[i];
-    arrow.y += arrow.speedY;
+    let ball = shapes[i];
+    ball.y += ball.speedY;
 
-    // Remove arrows that fall below the ground
-    if (arrow.y > 200) {
+    // Remove spheres that touch platform
+    if (ball.y > 0) {
       shapes.splice(i, 1);
       player.score++;
     }
     else {
+      lights();
       push();
-      translate(arrow.x, arrow.y, arrow.z);
-      sphere(30, newShape.x, newShape.y)
+      noStroke();
+      translate(ball.x, ball.y, ball.z);
+      fill(255);
+      specularMaterial(50);
+      shininess(200);
+      sphere(ball.size);
       pop();
     }
   }
@@ -199,7 +203,7 @@ function checkCollisions() {
 
 function displayScore() {
   push();
-  rotateY(calculateAngleToCamera())
+  rotateY(calculateAngleToCamera());
   fill(255);
   textSize(24);
   textAlign(LEFT);
@@ -213,7 +217,7 @@ function displayLevel() {
 
   push();
   fill(255);
-  rotateY(calculateAngleToCamera())
+  rotateY(calculateAngleToCamera());
   textSize(24);
   textAlign(RIGHT);
   text(`Level: ${level}`, width / 2 - 20, -height / 2 + 40);
@@ -232,10 +236,11 @@ function levelUp() {
 
 function keyPressed() {
   if (menu && keyCode === ENTER) {
-    menu = false;  // Start the game and exit the menu
+    menu = false; //exit menus
     levelTimer = millis();  // Reset timer for the first level
-  } else if (gameOver && keyCode === ENTER) {
-    resetGame();  // Reset game state
+    }
+  else if (gameOver && keyCode === ENTER) {
+    resetGame();
   }
 }
 
@@ -255,10 +260,11 @@ function resetGame() {
   shapes = [];
   player.score = 0;
   player.x = 0;
-  player.y = -40;
+  player.y = -20;
   player.z = 200;
   gameOver = false;
   level = 1;
   spawnRate = 120;
   levelTimer = millis();
-};
+}
+
