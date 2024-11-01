@@ -5,7 +5,7 @@
 // Extra for Experts:
 // - Used WEBGL
 
-let shapes = [];
+let balls = [];
 let player;
 let gameOver = false;
 let menu = true;
@@ -38,7 +38,7 @@ function draw() {
     drawGround();
     displayPlayer();
     movePlayer();
-    updateBall();
+    renderBall();
     checkCollisions();
     displayScore();
     displayLevel();
@@ -115,31 +115,35 @@ function displayPlayer() {
   pop();
 }
 
-// Spawn falling arrow objects
+// Pushes information about the new ball to an array which is accessed by the rendering function
 function spawnBall() {
   let newSphere = {
     x: random(-width / 2, width / 2),
     y: -300,
     z: random(-300, 300),
-    speedY: random(3, 8),
+    speedY: random(6, 9),
     size: 17
   };
-  shapes.push(newSphere);
+  balls.push(newSphere);
+}
+
+function spawnBallWarning() {
+  for (let i = balls.length - 1; i >=0; i--)
+
 }
 
 // Render and update ball position
-function updateBall() {
+function renderBall() {
   if (frameCount % spawnRate === 0 && !gameOver) {
     spawnBall();
   }
 
-  for (let i = shapes.length - 1; i >= 0; i--) {
-    let ball = shapes[i];
+  for (let ball of balls) {
     ball.y += ball.speedY;
 
     // Remove spheres that touch platform
     if (ball.y > 0) {
-      shapes.splice(i, 1);
+      balls.splice(i, 1);
       player.score++;
     }
     else {
@@ -192,7 +196,7 @@ function detectCollision(player, shape) {
 
 // Function to check collisions
 function checkCollisions() {
-  for (let shape of shapes) {
+  for (let shape of balls) {
     if (detectCollision(player, shape)) {
       gameOver = true;
     }
@@ -262,7 +266,7 @@ function displayGameOver() {
 }
 
 function resetGame() {
-  shapes = [];
+  balls = [];
   player.score = 0;
   player.x = 0;
   player.y = -20;
