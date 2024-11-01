@@ -11,8 +11,6 @@ let gameOver = false;
 let menu = true; // Menu state variable
 let cameraControl;
 let myFont;
-let arrowTexture;
-let arrowModel;
 
 
 let level = 1;
@@ -42,7 +40,7 @@ function draw() {
     drawGround();
     displayPlayer();
     movePlayer();
-    updateArrow();
+    updateShape();
     checkCollisions();
     displayScore();
     displayLevel();
@@ -119,22 +117,22 @@ function displayPlayer() {
 }
 
 // Spawn falling arrow objects
-function spawnArrow() {
-  let newArrow = {
+function spawnShape() {
+  let newShape = {
     x: random(-width / 2, width / 2),
     y: -300,
     z: random(-300, 300),
     speedY: random(3, 7)
   };
-  shapes.push(newArrow);
+  shapes.push(newShape);
 }
 
 // Update and render arrows
-function updateArrow() {
+function updateShape() {
   //what frameCount%spawnRate does is it makes sure the arrow spawn in intervals, rather than in every frame. 37%40 would get you no arrows, 40%
   if (frameCount % spawnRate === 0 && !gameOver) {
-    spawnArrow();
-  } e
+    spawnShape();
+  }
 
   for (let i = shapes.length - 1; i >= 0; i--) {
     let arrow = shapes[i];
@@ -148,9 +146,7 @@ function updateArrow() {
     else {
       push();
       translate(arrow.x, arrow.y, arrow.z);
-      rotateZ(-1.5708)
-      texture(arrowTexture);
-      model(arrowModel);
+      sphere(30, newShape.x, newShape.y)
       pop();
     }
   }
@@ -175,7 +171,7 @@ function movePlayer() {
   player.x = constrain(player.x, -width / 2 + player.size / 2, width / 2 - player.size / 2);
 
   // Constrain player movement within the bounds (Z-axis for back-forth movement)
-  player.z = constrain(player.z, -300 + player.size / 2, 300 - player.size / 2);  // Updated bounds for Z
+  player.z = constrain(player.z, -400 + player.size / 2, 400 - player.size / 2);
 }
 
 // Function to detect collision between player and a shape
