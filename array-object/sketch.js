@@ -127,10 +127,10 @@ function spawnBall() {
   balls.push(newSphere);
 }
 
-function spawnBallWarning() {
-  for (let i = balls.length - 1; i >=0; i--)
+//function spawnBallWarning() {
+//  for (let i = balls.length - 1; i >=0; i--)
 
-}
+//}
 
 // Render and update ball position
 function renderBall() {
