@@ -3,7 +3,7 @@
 // October 15, 2024
 //
 // Extra for Experts:
-// - Used WEBGL
+// - Used WEBGL to create
 
 let balls = [];
 let player;
@@ -88,7 +88,7 @@ function drawMenu() {
   text('Press ENTER to Start', 0, 0);
 }
 
-// Function to update the level timer and advance level if time has elapsed
+// Function to update the level timer and increase difficulty level once timer has reached max
 function updateLevelTimer() {
   let elapsedTime = millis() - levelTimer;
   if (elapsedTime >= levelTime * 1000) {
@@ -106,7 +106,7 @@ function drawGround() {
   pop();
 }
 
-// Function to display the player cube
+// Function to display the player (the cube)
 function displayPlayer() {
   push();
   fill(player.color);
@@ -175,14 +175,14 @@ function movePlayer() {
     player.z += player.speed;  // Move back
   }
 
-  // Constrain left and right movmen
+  // Constrain left and right movments
   player.x = constrain(player.x, -500 / 2 + player.size / 2, 500 / 2 - player.size / 2);
 
   // Constrain back and forth movement within 900 units
   player.z = constrain(player.z, -450 + player.size / 2, 450 - player.size / 2);
 }
 
-// Function to detect collision between player and a shape
+// Function to detect collision between player and the falling balls
 function detectCollision(player, shape) {
   let playerHalfSize = player.size / 2;
   let shapeHalfSize = shape.size / 2;
@@ -215,8 +215,8 @@ function displayScore() {
 }
 
 function displayLevel() {
-  let elapsedSeconds = Math.floor((millis() - levelTimer) / 1000); // Calculate elapsed time in seconds
-  let timeLeft = max(0, levelTime - elapsedSeconds); // Remaining time for the level of difficulty
+  let elapsedSeconds = Math.floor((millis() - levelTimer) / 1000); // Calculate the milliseconds in seconds
+  let timeLeft = max(0, levelTime - elapsedSeconds); // Remaining time before difficulty level increases
 
   push();
   fill(255);
@@ -240,8 +240,8 @@ function levelUp() {
 function keyPressed() {
 
   if (menu && keyCode === ENTER) {
-    menu = false; //exit menus
-    levelTimer = millis();  // Reset timer for the first level
+    menu = false; 
+    levelTimer = millis();
   }
 
   else if (menu === false && key === " ") {
