@@ -57,7 +57,7 @@ function initializeGame() {
     z: 200,
     size: 40,
     speed: 5,
-    color: 'rgb(75,75,145)',
+    color: '#4B4B91',
     score: 0
   };
 
@@ -127,10 +127,11 @@ function spawnBall() {
   balls.push(newSphere);
 }
 
-//function spawnBallWarning() {
-//  for (let i = balls.length - 1; i >=0; i--)
+function spawnBallWarning() {
+  for (let i = balls.length - 1; i >=0; i--) {
 
-//}
+  }
+}
 
 // Render and update ball position
 function renderBall() {
@@ -240,7 +241,7 @@ function levelUp() {
 function keyPressed() {
 
   if (menu && keyCode === ENTER) {
-    menu = false; 
+    menu = false;
     levelTimer = millis();
   }
 
