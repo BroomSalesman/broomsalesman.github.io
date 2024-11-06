@@ -125,7 +125,7 @@ function spawnBall() {
     y: -300,
     z: random(-PLANE_LENGTH/2, PLANE_LENGTH/2),
     speedY: random(6, 9),
-    size: 17
+    size: 30
   };
   balls.push(newBall);
 }
