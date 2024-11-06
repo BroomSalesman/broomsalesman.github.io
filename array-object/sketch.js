@@ -11,6 +11,8 @@ let gameOver = false;
 let menu = true;
 let cameraControl;
 let myFont;
+const PLANE_WIDTH = 1000;
+const PLANE_LENGTH = 1000;
 
 
 let level = 1;
@@ -38,6 +40,7 @@ function draw() {
     drawGround();
     displayPlayer();
     movePlayer();
+    spawnBallWarning();
     renderBall();
     checkCollisions();
     displayScore();
@@ -102,7 +105,7 @@ function drawGround() {
   noStroke();
   fill(100, 150, 100);
   rotateX(HALF_PI);
-  plane(1000, 1000);
+  plane(PLANE_WIDTH, PLANE_LENGTH);
   pop();
 }
 
@@ -117,19 +120,24 @@ function displayPlayer() {
 
 // Pushes information about the new ball to an array which is accessed by the rendering function
 function spawnBall() {
-  let newSphere = {
-    x: random(-width / 2, width / 2),
+  let newBall = {
+    x: random(-PLANE_WIDTH/ 2, PLANE_WIDTH/ 2),
     y: -300,
-    z: random(-300, 300),
+    z: random(-PLANE_LENGTH/2, PLANE_LENGTH/2),
     speedY: random(6, 9),
     size: 17
   };
-  balls.push(newSphere);
+  balls.push(newBall);
 }
 
 function spawnBallWarning() {
-  for (let i = balls.length - 1; i >=0; i--) {
+  for (let ball of balls) {
+    push();
+    noStroke();
 
+    translate(ball.x, 0, ball.z)
+    cylinder(ball.size, 3);
+    pop()
   }
 }
 
@@ -144,7 +152,8 @@ function renderBall() {
 
     // Remove spheres that touch platform
     if (ball.y > 0) {
-      balls.splice(i, 1);
+      let theIndex = balls.indexOf(ball)
+      balls.splice(theIndex, 1);
       player.score++;
     }
     else {
