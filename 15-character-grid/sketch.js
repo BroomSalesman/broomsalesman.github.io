@@ -8,14 +8,21 @@ let cellSize;
 const GRID_SIZE  = 20;
 const OPEN_TILE = 0;
 const IMPASSIBLE = 1;
-const PLAYER = 3;
+const PLAYER = 9;
 let thePlayer = {
   x: 0,
   y: 0,
 };
+let grassImg;
+let pathImg;
+
+
+function preload() {
+  grassImg = loadImage('grass.jpg');
+  pathImg = loadImage('path.jpg');
+}
 
 function setup() {
-
   if (windowWidth < windowHeight) {
     createCanvas(windowWidth, windowWidth);
   }
@@ -73,8 +80,27 @@ function keyPressed() {
   if (key === 'e') {
     grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
-}
 
+  if (key === "s") {
+    //move down
+    movePlayer(thePlayer.x, thePlayer.y - 1)
+  }
+
+  if (key === "w") {
+    //move up
+    movePlayer(thePlayer.x, thePlayer.y - 1);
+  }
+
+  if (key === "d") {
+    //move right
+    movePlayer(thePlayer.x + 1, thePlayer.y);
+  }
+
+  if (key === "a") {
+    //move left
+    movePlayer(thePlayer.x - 1, thePlayer.y)
+  }
+}
 
 function displayGrid() {
   for (let y = 0; y < GRID_SIZE; y++) {

@@ -3,14 +3,16 @@
 // October 15, 2024
 //
 // Extra for Experts:
-// - Used WEBGL
+// - Used WEBGL to create
 
-let shapes = [];
+let balls = [];
 let player;
 let gameOver = false;
 let menu = true;
 let cameraControl;
 let myFont;
+const PLANE_WIDTH = 1000;
+const PLANE_LENGTH = 1000;
 
 
 let level = 1;
@@ -58,7 +60,7 @@ function initializeGame() {
     z: 200,
     size: 40,
     speed: 5,
-    color: 'rgb(75,75,145)',
+    color: '#4B4B91',
     score: 0
   };
 
@@ -89,7 +91,7 @@ function drawMenu() {
   text('Press ENTER to Start', 0, 0);
 }
 
-// Function to update the level timer and advance level if time has elapsed
+// Function to update the level timer and increase difficulty level once timer has reached max
 function updateLevelTimer() {
   let elapsedTime = millis() - levelTimer;
   if (elapsedTime >= levelTime * 1000) {
@@ -97,7 +99,7 @@ function updateLevelTimer() {
   }
 }
 
-// Function to draw the ground
+
 function drawGround() {
   push();
   noStroke();
@@ -109,7 +111,7 @@ function drawGround() {
   pop();
 }
 
-// Function to display the player cube
+// Function to display the player (the cube)
 function displayPlayer() {
   push();
   fill(player.color);
@@ -123,11 +125,11 @@ function spawnBall() {
   let newSphere = {
     x: random(-width / 2, width / 2),
     y: -300,
-    z: random(-300, 300),
-    speedY: random(3, 8),
-    size: random(10, 25)  // Random size for each sphere
+    z: random(-PLANE_LENGTH/2, PLANE_LENGTH/2),
+    speedY: random(6, 9),
+    size: 30
   };
-  shapes.push(newSphere);
+  balls.push(newBall);
 }
 
 // Update and render arrows
@@ -136,13 +138,13 @@ function updateBalls() {
     spawnBall();
   }
 
-  for (let i = shapes.length - 1; i >= 0; i--) {
-    let ball = shapes[i];
+  for (let ball of balls) {
     ball.y += ball.speedY;
 
     // Remove spheres that touch platform
     if (ball.y > 0) {
-      shapes.splice(i, 1);
+      let theIndex = balls.indexOf(ball)
+      balls.splice(theIndex, 1);
       player.score++;
     }
     else {
@@ -160,27 +162,27 @@ function updateBalls() {
 
 // Function to move the player
 function movePlayer() {
-  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {  // A key for left
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {  // A key
     player.x -= player.speed;  // Move left
   }
-  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {  // D key for right
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) { // D key
     player.x += player.speed;  // Move right
   }
-  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {  // W key for forward
+  if (keyIsDown(UP_ARROW) || keyIsDown(87)) { // W key
     player.z -= player.speed;  // Move forward
   }
-  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {  // S key for back
+  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) { // S
     player.z += player.speed;  // Move back
   }
 
-  // Constrain player movement within the bounds (X-axis for left-right movement)
-  player.x = constrain(player.x, -width / 2 + player.size / 2, width / 2 - player.size / 2);
+  // Constrain left and right movments
+  player.x = constrain(player.x, -500 / 2 + player.size / 2, 500 / 2 - player.size / 2);
 
-  // Constrain player movement within the bounds (Z-axis for back-forth movement)
-  player.z = constrain(player.z, -400 + player.size / 2, 400 - player.size / 2);
+  // Constrain back and forth movement within 900 units
+  player.z = constrain(player.z, -450 + player.size / 2, 450 - player.size / 2);
 }
 
-// Function to detect collision between player and a shape
+// Function to detect collision between player and the falling balls
 function detectCollision(player, shape) {
   let playerHalfSize = player.size / 2;
   let shapeHalfSize = shape.size / 2;
@@ -194,10 +196,9 @@ function detectCollision(player, shape) {
 
 // Function to check collisions
 function checkCollisions() {
-  for (let shape of shapes) {
+  for (let shape of balls) {
     if (detectCollision(player, shape)) {
       gameOver = true;
-      break;
     }
   }
 }
@@ -209,13 +210,13 @@ function displayScore() {
   fill(255);
   textSize(24);
   textAlign(LEFT);
-  text(`Score: ${player.score}`, -width / 2 + 20, -height / 2 + 40);  //
+  text(`Score: ${player.score}`, -width / 2 + 20, -height / 2 + 40);
   pop();
 }
 
 function displayLevel() {
-  let elapsedSeconds = Math.floor((millis() - levelTimer) / 1000); // Calculate elapsed time in seconds
-  let timeLeft = max(0, levelTime - elapsedSeconds); // Remaining time for the level
+  let elapsedSeconds = Math.floor((millis() - levelTimer) / 1000); // Calculate the milliseconds in seconds
+  let timeLeft = max(0, levelTime - elapsedSeconds); // Remaining time before difficulty level increases
 
   push();
   fill(255);
@@ -237,10 +238,16 @@ function levelUp() {
 
 
 function keyPressed() {
+
   if (menu && keyCode === ENTER) {
-    menu = false; //exit menus
-    levelTimer = millis();  // Reset timer for the first level
-    }
+    menu = false;
+    levelTimer = millis();
+  }
+
+  else if (menu === false && key === " ") {
+
+  }
+
   else if (gameOver && keyCode === ENTER) {
     resetGame();
   }
@@ -259,7 +266,7 @@ function displayGameOver() {
 }
 
 function resetGame() {
-  shapes = [];
+  balls = [];
   player.score = 0;
   player.x = 0;
   player.y = -20;
