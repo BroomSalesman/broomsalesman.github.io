@@ -33,12 +33,13 @@ function draw() {
     drawMenu();
   }
   else {
+    lights();
     background(200);
     setCameraPosition();
     drawGround();
     displayPlayer();
     movePlayer();
-    updateShape();
+    updateBalls();
     checkCollisions();
     displayScore();
     displayLevel();
@@ -102,6 +103,8 @@ function drawGround() {
   noStroke();
   fill(100, 150, 100);
   rotateX(HALF_PI);
+  specularMaterial(50);
+  shininess(200);
   plane(1000, 1000);
   pop();
 }
@@ -116,7 +119,7 @@ function displayPlayer() {
 }
 
 // Spawn falling arrow objects
-function spawnArrow() {
+function spawnBall() {
   let newSphere = {
     x: random(-width / 2, width / 2),
     y: -300,
@@ -128,9 +131,9 @@ function spawnArrow() {
 }
 
 // Update and render arrows
-function updateArrow() {
+function updateBalls() {
   if (frameCount % spawnRate === 0 && !gameOver) {
-    spawnArrow();
+    spawnBall();
   }
 
   for (let i = shapes.length - 1; i >= 0; i--) {
@@ -143,7 +146,6 @@ function updateArrow() {
       player.score++;
     }
     else {
-      lights();
       push();
       noStroke();
       translate(ball.x, ball.y, ball.z);
