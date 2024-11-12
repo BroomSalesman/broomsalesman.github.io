@@ -35,13 +35,13 @@ function draw() {
     drawMenu();
   }
   else {
+    lights();
     background(200);
     setCameraPosition();
     drawGround();
     displayPlayer();
     movePlayer();
-    spawnBallWarning();
-    renderBall();
+    updateBalls();
     checkCollisions();
     displayScore();
     displayLevel();
@@ -105,7 +105,9 @@ function drawGround() {
   noStroke();
   fill(100, 150, 100);
   rotateX(HALF_PI);
-  plane(PLANE_WIDTH, PLANE_LENGTH);
+  specularMaterial(50);
+  shininess(200);
+  plane(1000, 1000);
   pop();
 }
 
@@ -118,10 +120,10 @@ function displayPlayer() {
   pop();
 }
 
-// Pushes information about the new ball to an array which is accessed by the rendering function
+// Spawn falling arrow objects
 function spawnBall() {
-  let newBall = {
-    x: random(-PLANE_WIDTH/ 2, PLANE_WIDTH/ 2),
+  let newSphere = {
+    x: random(-width / 2, width / 2),
     y: -300,
     z: random(-PLANE_LENGTH/2, PLANE_LENGTH/2),
     speedY: random(6, 9),
@@ -130,19 +132,8 @@ function spawnBall() {
   balls.push(newBall);
 }
 
-function spawnBallWarning() {
-  for (let ball of balls) {
-    push();
-    noStroke();
-
-    translate(ball.x, 0, ball.z)
-    cylinder(ball.size, 3);
-    pop()
-  }
-}
-
-// Render and update ball position
-function renderBall() {
+// Update and render arrows
+function updateBalls() {
   if (frameCount % spawnRate === 0 && !gameOver) {
     spawnBall();
   }
@@ -157,7 +148,6 @@ function renderBall() {
       player.score++;
     }
     else {
-      lights();
       push();
       noStroke();
       translate(ball.x, ball.y, ball.z);
