@@ -26,20 +26,20 @@ function setup() {
   if (windowWidth < windowHeight) {
     createCanvas(windowWidth, windowWidth);
   }
-
   else {
     createCanvas(windowHeight, windowHeight);
   }
-
   cellSize = height/GRID_SIZE;
   grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
+
+  //add player to the grid
+  grid[thePlayer.y][thePlayer.x] = PLAYER;
 }
 
 function windowResized() {
   if (windowWidth < windowHeight) {
     resizeCanvas(windowWidth, windowHeight);
   }
-
   else {
     resizeCanvas(windowHeight, windowWidth);
   }
@@ -100,6 +100,12 @@ function keyPressed() {
     //move left
     movePlayer(thePlayer.x - 1, thePlayer.y)
   }
+}
+
+function movePlayer(x, y) {
+  //dont move off grid and only move in open tiles
+  if (x >= 00 && GRID_SIZE && y >= 0 && y) <
+  gri
 }
 
 function displayGrid() {

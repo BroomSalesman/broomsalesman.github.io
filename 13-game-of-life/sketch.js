@@ -2,12 +2,6 @@
 // Labeeb Farooqi
 // October 25, 2024
 
-
-
-
-
-
-
 let grid;
 let cellSize;
 const GRID_SIZE = 10;
