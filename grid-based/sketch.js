@@ -1,9 +1,10 @@
-// Project Title
-// Your Name
-// Date
+// Grid Based Assignment
+// Labeeb Farooqi
+// November 12, 2024
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - Exporting as audio files
+
 
 
 function setup() {
