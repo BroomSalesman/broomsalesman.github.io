@@ -16,7 +16,8 @@
 - [13. Game of Life](13-game-of-life)
 - [14. Rectangle Grid](14-rect-grid)
 - [15. Moving Character Grid](15-character-grid)
-- [16. Walker OOP](15-walker-oop)
+- [16. Walker OOP](16-walker-oop)
+- [17. Walker OOP Array](17-walker-oop-array)
 
 ## Projects
 - [Interactive Scene](interactive-scene)

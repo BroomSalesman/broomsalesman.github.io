@@ -1,5 +1,6 @@
 // Walker OOP Demo
 // November 12, 2024
+let counter = 0
 
 class Walker {
   constructor(x, y, theColor) {
@@ -34,6 +35,7 @@ class Walker {
       //right
       this.x += this.speed;
     }
+    counter += 1
   }
 }
 
@@ -59,4 +61,10 @@ function mousePressed() {
   let randomColor = color(random(255), random(255), random(255));
   let someWalker = new Walker(mouseX, mouseY, randomColor);
   walkerArray.push(someWalker);
+}
+
+function keyPressed(){
+  if (key === "r") {
+    console.log(counter)
+  }
 }
