@@ -29,6 +29,7 @@ function setup() {
 function draw() {
   background(50);
   displayGrid();
+  displayLabels();
 }
 
 function mousePressed() {
@@ -68,12 +69,12 @@ function displayGrid() {
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
       fill(grid[y][x] === 1 ? colors[y] : 240); // Use color from the row-specific color list
+
       stroke(0);
 
-      // Adjusted positioning to replicate the layout in the image
       let xpos = x * (cellSize + SPACING) + 100
       let ypos = y * (cellSize + SPACING) + 40
-      rect(x * (cellSize + SPACING) + 100, y * (cellSize + SPACING) + 40, cellSize, cellSize, 3);
+      rect(xpos, ypos, cellSize, cellSize, 3);
     }
   }
 }
@@ -87,4 +88,12 @@ function generateEmptyGrid(rows, cols) {
     }
   }
   return newGrid;
+}
+
+function displayLabels() {
+    // Draw row labels
+    fill(255);
+    for (let y = 0; y < ROWS; y++) {
+      text(labels[y], 23, y * (cellSize + SPACING) + 62); // Offset for label alignment
+    }
 }
