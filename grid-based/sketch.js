@@ -11,7 +11,7 @@ const ROWS = 13;
 const COLS = 16;
 const SPACING = 10;
 
-let labels = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Close", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
+let sounds = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Close", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
 
 let colors = [
   "#2196F3", "#9C27B0", "#E91E63", "#FF5722", "#4CAF50",
@@ -23,9 +23,8 @@ let tempoSlider;
 let tempo;
 let bass, kick, snare, hihatOpen, hihatClose, cymbal, tomLow, tomMid, tomHi, donk, rimShot, clap, cowbell
 
-function preload() {
-  let path = '//beats/'
 
+function preload() {
   bass = loadSound('beats/bass-drum.wav')
   kick = loadSound('beats/kick.wav')
   snare = loadSound('beats/snare.wav')
@@ -41,7 +40,6 @@ function preload() {
   cowbell = loadSound('beats/cowbell.wav')
 }
 
-
 function setup() {
   createCanvas(windowHeight, windowHeight);
   grid = generateEmptyGrid(ROWS, COLS);
@@ -52,17 +50,59 @@ function setup() {
 function draw() {
   tempo = tempoSlider.value()
   beatDuration = 60/tempo * 1000
-  console.log(beatDuration)
   background(50);
   displayGrid();
   displayLabels();
-
 }
 
+function playSounds(theSound) {
+  if (theSound === sounds[0]) {
+    bass.play()
+  }
+  else if (theSound === sounds[1]) {
+    kick.play()
+  }
+  else if (theSound === sounds[2]) {
+    snare.play()
+  }
+  else if (theSound === sounds[3]) {
+    hihatOpen.play()
+  }
+  else if (theSound === sounds[4]) {
+    hihatClose.play()
+  }
+  else if (theSound === sounds[5]) {
+    cymbal.play()
+  }
+  else if (theSound === sounds[6]) {
+    tomLow.play()
+  }
+  else if (theSound === sounds[7]) {
+    tomMid.play()
+  }
+  else if (theSound === sounds[8]) {
+    tomHi.play()
+  }
+  else if (theSound === sounds[9]) {
+    donk.play()
+  }
+  else if (theSound === sounds[10]) {
+    rimShot.play()
+  }
+  else if (theSound === sounds[11]) {
+    clap.play()
+  }
+  else if (theSound === sounds[12]) {
+    cowbell.play()
+  }
+
+
+}
 function mousePressed() {
   //After struggling for a long time I used chatpgt to account for the
   //spacing between buttons to make sure they only toggle if directly
   //clicked on, not if clicked on the area around it.
+  // I understand the code fully
   let xIndex = Math.floor((mouseX - 150) / (cellSize + SPACING));
   let yIndex = Math.floor((mouseY - 60) / (cellSize + SPACING));
 
@@ -70,21 +110,26 @@ function mousePressed() {
   let cellX = xIndex * (cellSize + SPACING) + 150;
   let cellY = yIndex * (cellSize + SPACING) + 60;
 
-  // Check if the mouse is within the actual cell area (excluding spacing)
-  if (
-    mouseX > cellX && mouseX < cellX + cellSize &&
-    mouseY > cellY && mouseY < cellY + cellSize
-  ) {
+  // Check if the mouse is within the button
+  if (mouseX > cellX && mouseX < cellX + cellSize &&mouseY > cellY && mouseY < cellY + cellSize) {
     toggleCell(xIndex, yIndex);
+    }
   }
-}
+
 
 function toggleCell(x, y) {
   if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
-    //I was curious if there are one liners in  js like there are in python, and I came across this if else one liner. If grid[y][x] equals 0, turn it into 1. Otherwise, turn it into 0.
-    grid[y][x] = grid[y][x] === 0 ? 1 : 0;
+    if (grid[y][x] === 0) {
+      grid[y][x] = 1
+      playSounds(sounds[y])
+    }
+    else {
+      grid[y][x] = 0
+    }
   }
 }
+
+
 
 function keyPressed() {
   if (key === 'e') {
@@ -92,10 +137,13 @@ function keyPressed() {
   }
 }
 
+
+
 function displayGrid() {
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
-      fill(grid[y][x] === 1 ? colors[y] : 240); // Use color from the row-specific color list
+      //if tile equals 1 then show  appropriate color according to beat, if tile does  not equal 1 show white
+      fill(grid[y][x] === 1 ? colors[y] : 240);
 
       stroke(0);
 
@@ -130,7 +178,7 @@ function displayLabels() {
     fill(255);
     for (let y = 0; y < ROWS; y++) {
       textSize(20);
-      text(labels[y], 23, y * (cellSize + SPACING) + 87); // Offset for label alignment
+      text(sounds[y], 23, y * (cellSize + SPACING) + 87); // Offset for label alignment
     }
 
     // Tempo label
