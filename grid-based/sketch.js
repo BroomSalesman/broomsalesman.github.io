@@ -8,7 +8,7 @@
 let grid;
 let cellSize = 40;
 const ROWS = 13;
-const COLS = 16;
+const COLS = 32;
 const SPACING = 10;
 
 let sounds = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Close", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
@@ -19,8 +19,15 @@ let colors = [
   "#FF9800", "#F44336", "#CDDC39"
 ];
 
+let timer;
 let tempoSlider;
 let tempo;
+let beatDuration;
+let beatCounter = 0;
+let lastBeatTime = 0;
+
+
+
 let bass, kick, snare, hihatOpen, hihatClose, cymbal, tomLow, tomMid, tomHi, donk, rimShot, clap, cowbell
 
 
@@ -41,7 +48,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowHeight, windowHeight);
+  createCanvas(windowWidth, windowHeight);
   grid = generateEmptyGrid(ROWS, COLS);
   Slider();
 }
@@ -49,11 +56,13 @@ function setup() {
 
 function draw() {
   tempo = tempoSlider.value()
-  beatDuration = 60/tempo * 1000
+  beatDuration = 60/tempo * 1000 / 4
   background(50);
   displayGrid();
   displayLabels();
+  loopBeat();
 }
+
 
 function playSounds(theSound) {
   if (theSound === sounds[0]) {
@@ -116,6 +125,22 @@ function mousePressed() {
     }
   }
 
+  function loopBeat() {
+    // Check if the required time interval has passed since the last beat
+    if (millis() - lastBeatTime >= beatDuration) {
+      lastBeatTime = millis(); // Update the last beat time
+      beatCounter = (beatCounter + 1) % COLS;
+
+      // Loop through each row in the grid
+      for (let y = 0; y < ROWS; y++) {
+        if (grid[y][beatCounter] === 1) {
+          playSounds(sounds[y]); // Play the sound corresponding to the current row
+          }
+        }
+      }
+    }
+
+function indicator
 
 function toggleCell(x, y) {
   if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
@@ -136,8 +161,6 @@ function keyPressed() {
     grid = generateEmptyGrid(ROWS, COLS);
   }
 }
-
-
 
 function displayGrid() {
   for (let y = 0; y < ROWS; y++) {
@@ -169,8 +192,6 @@ function Slider() {
   tempoSlider = createSlider(5, 240, 90, 5)
   tempoSlider.position (150, 770)
   tempoSlider.size(200)
-
-
 }
 
 function displayLabels() {
