@@ -26,10 +26,7 @@ let beatDuration;
 let beatCounter = 0;
 let lastBeatTime = 0;
 
-
-
 let bass, kick, snare, hihatOpen, hihatClose, cymbal, tomLow, tomMid, tomHi, donk, rimShot, clap, cowbell
-
 
 function preload() {
   bass = loadSound('beats/bass-drum.wav')
@@ -53,7 +50,6 @@ function setup() {
   Slider();
 }
 
-
 function draw() {
   tempo = tempoSlider.value()
   beatDuration = 60/tempo * 1000 / 4
@@ -63,7 +59,6 @@ function draw() {
   loopBeat();
   indicator();
 }
-
 
 function playSounds(theSound) {
   if (theSound === sounds[0]) {
@@ -146,7 +141,6 @@ function mousePressed() {
     }
   }
 
-
   function loopBeat() {
     // Check if the required time interval has passed since the last beat
     if (millis() - lastBeatTime >= beatDuration) {
@@ -163,12 +157,12 @@ function mousePressed() {
     }
 
 function indicator() {
-  let xpos = beatCounter * (cellSize + SPACING) + 150;
+  let x = beatCounter * (cellSize + SPACING) + 150;
   let ypos = 40;
 
   fill("red");
   noStroke();
-  ellipse(xpos + cellSize / 2, ypos, 15, 15); // Draw the red dot centered above the current beat
+  ellipse(xpos + cellSize / 2, 40, 15, 15); // Draw the red dot centered above the current beat
 }
 
 function toggleCell(x, y) {
@@ -182,8 +176,6 @@ function toggleCell(x, y) {
     }
   }
 }
-
-
 
 function keyPressed() {
   if (key === 'e') {
