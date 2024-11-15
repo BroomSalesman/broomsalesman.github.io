@@ -26,8 +26,19 @@ let bass, kick, snare, hihatOpen, hihatClose, cymbal, tomLow, tomMid, tomHi, don
 function preload() {
   let path = '//beats/'
 
-  bass = loadSound('beats/dr')
-
+  bass = loadSound('beats/bass-drum.wav')
+  kick = loadSound('beats/kick.wav')
+  snare = loadSound('beats/snare.wav')
+  hihatOpen = loadSound('beats/hihat-open.wav')
+  hihatClose = loadSound('beats/hihat-closed.wav')
+  cymbal = loadSound('beats/cymbal.wav')
+  tomLow = loadSound('beats/tom-low.wav')
+  tomMid = loadSound('beats/tom-mid.wav')
+  tomHi = loadSound('beats/tom-hi.wav')
+  donk = loadSound('beats/donk.wav')
+  rimShot = loadSound('beats/rim-shot.wav')
+  clap = loadSound('beats/clap.wav')
+  cowbell = loadSound('beats/cowbell.wav')
 }
 
 
@@ -40,6 +51,8 @@ function setup() {
 
 function draw() {
   tempo = tempoSlider.value()
+  beatDuration = 60/tempo * 1000
+  console.log(beatDuration)
   background(50);
   displayGrid();
   displayLabels();
@@ -105,7 +118,7 @@ function generateEmptyGrid(rows, cols) {
 }
 
 function Slider() {
-  tempoSlider = createSlider(0, 240, 90, 5)
+  tempoSlider = createSlider(5, 240, 90, 5)
   tempoSlider.position (150, 770)
   tempoSlider.size(200)
 
