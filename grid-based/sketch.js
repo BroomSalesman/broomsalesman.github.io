@@ -32,13 +32,28 @@ function draw() {
 }
 
 function mousePressed() {
-  let x = Math.floor((mouseX - 100) / (cellSize + SPACING));
-  let y = Math.floor((mouseY - 40) / (cellSize + SPACING));
-  toggleCell(x, y);
+  //After struggling for a long time I used chatpgt to account for the
+  //spacing between buttons to make sure they only toggle if directly
+  //clicked on, not if clicked on the area around it.
+  let xIndex = Math.floor((mouseX - 100) / (cellSize + SPACING));
+  let yIndex = Math.floor((mouseY - 40) / (cellSize + SPACING));
+
+  // Calculate the exact cell boundaries
+  let cellX = xIndex * (cellSize + SPACING) + 100;
+  let cellY = yIndex * (cellSize + SPACING) + 40;
+
+  // Check if the mouse is within the actual cell area (excluding spacing)
+  if (
+    mouseX > cellX && mouseX < cellX + cellSize &&
+    mouseY > cellY && mouseY < cellY + cellSize
+  ) {
+    toggleCell(xIndex, yIndex);
+  }
 }
 
 function toggleCell(x, y) {
   if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+    //I was curious if there are one liners in  js like there are in python, and I came across this if else one liner. If grid[y][x] equals 0, turn it into 1. Otherwise, turn it into 0.
     grid[y][x] = grid[y][x] === 0 ? 1 : 0;
   }
 }
