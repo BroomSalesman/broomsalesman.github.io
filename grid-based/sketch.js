@@ -10,7 +10,15 @@
 let grid;
 let cellSize;
 const GRID_SIZE  = 10;
-let instruments = ['kick drum', 'snare', 'open hihat', 'close hihat', '']
+
+
+const synthA5 = new Tone.Synth().toDestination();
+const synthB5 = new Tone.Synth().toDestination();
+const synthC5 = new Tone.Synth().toDestination();
+const synthD5 = new Tone.Synth().toDestination();
+const synthE5 = new Tone.Synth().toDestination();
+const synthF5 = new Tone.Synth().toDestination();
+const synthG5 = new Tone.Synth().toDestination();
 
 function setup() {
 
@@ -40,42 +48,23 @@ function windowResized() {
 function draw() {
   background(220);
   displayGrid();
+  mousePressed();
 }
+
+
 
 function mousePressed() {
-  let x = Math.floor(mouseX/cellSize);
-  let y = Math.floor(mouseY/cellSize);
-
-  //toggle self
-  toggleCell(x, y);
-
-  //toggle neighbours
-  toggleCell(x - 1, y);
-  toggleCell(x + 1, y);
-  toggleCell(x, y - 1);
-  toggleCell(x, y + 1);
-}
-
-function toggleCell(x, y) {
-  //make sure the cell you're toggling is in the grid
-  if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
-    if (grid[y][x] === 0) {
-      grid[y][x] = 1;
-    }
-    else {
-      grid[y][x] = 0;
-    }
-  }
+  synthF5.triggerAttackRelease('F3', '8n', 1);
 }
 
 
 function keyPressed() {
   if (key === 'r') {
-    grid = generateRandomGrid(GRID_SIZE, GRID_SIZE)
+    grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
   }
 
   if (key === 'e') {
-    grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE)
+    grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
 }
 
