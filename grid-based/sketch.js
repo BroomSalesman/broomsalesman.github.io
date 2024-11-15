@@ -11,37 +11,51 @@ const ROWS = 13;
 const COLS = 16;
 const SPACING = 10;
 
-let labels = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Closed", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
+let labels = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Close", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
 
-// Updated color array using hex values
 let colors = [
   "#2196F3", "#9C27B0", "#E91E63", "#FF5722", "#4CAF50",
   "#FFEB3B", "#00BCD4", "#3F51B5", "#673AB7", "#03A9F4",
   "#FF9800", "#F44336", "#CDDC39"
 ];
 
+let tempoSlider;
+let tempo;
+let bass, kick, snare, hihatOpen, hihatClose, cymbal, tomLow, tomMid, tomHi, donk, rimShot, clap, cowbell
+
+function preload() {
+  let path = '//beats/'
+
+  bass = loadSound('beats/dr')
+
+}
+
+
 function setup() {
   createCanvas(windowHeight, windowHeight);
   grid = generateEmptyGrid(ROWS, COLS);
+  Slider();
 }
 
 
 function draw() {
+  tempo = tempoSlider.value()
   background(50);
   displayGrid();
   displayLabels();
+
 }
 
 function mousePressed() {
   //After struggling for a long time I used chatpgt to account for the
   //spacing between buttons to make sure they only toggle if directly
   //clicked on, not if clicked on the area around it.
-  let xIndex = Math.floor((mouseX - 100) / (cellSize + SPACING));
-  let yIndex = Math.floor((mouseY - 40) / (cellSize + SPACING));
+  let xIndex = Math.floor((mouseX - 150) / (cellSize + SPACING));
+  let yIndex = Math.floor((mouseY - 60) / (cellSize + SPACING));
 
   // Calculate the exact cell boundaries
-  let cellX = xIndex * (cellSize + SPACING) + 100;
-  let cellY = yIndex * (cellSize + SPACING) + 40;
+  let cellX = xIndex * (cellSize + SPACING) + 150;
+  let cellY = yIndex * (cellSize + SPACING) + 60;
 
   // Check if the mouse is within the actual cell area (excluding spacing)
   if (
@@ -72,8 +86,8 @@ function displayGrid() {
 
       stroke(0);
 
-      let xpos = x * (cellSize + SPACING) + 100
-      let ypos = y * (cellSize + SPACING) + 40
+      let xpos = x * (cellSize + SPACING) + 150
+      let ypos = y * (cellSize + SPACING) + 60
       rect(xpos, ypos, cellSize, cellSize, 3);
     }
   }
@@ -90,10 +104,24 @@ function generateEmptyGrid(rows, cols) {
   return newGrid;
 }
 
+function Slider() {
+  tempoSlider = createSlider(0, 240, 90, 5)
+  tempoSlider.position (150, 770)
+  tempoSlider.size(200)
+
+
+}
+
 function displayLabels() {
-    // Draw row labels
+    // Sound labels
     fill(255);
     for (let y = 0; y < ROWS; y++) {
-      text(labels[y], 23, y * (cellSize + SPACING) + 62); // Offset for label alignment
+      textSize(20);
+      text(labels[y], 23, y * (cellSize + SPACING) + 87); // Offset for label alignment
     }
+
+    // Tempo label
+    textSize(20);
+    fill("orange")
+    text(`TEMPO: ${tempo}`, 150, 755)
 }
