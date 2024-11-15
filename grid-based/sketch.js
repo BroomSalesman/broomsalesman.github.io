@@ -12,14 +12,6 @@ let cellSize;
 const GRID_SIZE  = 10;
 
 
-const synthA5 = new Tone.Synth().toDestination();
-const synthB5 = new Tone.Synth().toDestination();
-const synthC5 = new Tone.Synth().toDestination();
-const synthD5 = new Tone.Synth().toDestination();
-const synthE5 = new Tone.Synth().toDestination();
-const synthF5 = new Tone.Synth().toDestination();
-const synthG5 = new Tone.Synth().toDestination();
-
 function setup() {
 
   if (windowWidth < windowHeight) {
@@ -48,13 +40,11 @@ function windowResized() {
 function draw() {
   background(220);
   displayGrid();
-  mousePressed();
 }
 
 
 
 function mousePressed() {
-  synthF5.triggerAttackRelease('F3', '8n', 1);
 }
 
 
