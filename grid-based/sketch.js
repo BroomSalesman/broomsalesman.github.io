@@ -5,68 +5,43 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-
-
 let grid;
-let cellSize = 40
-const ROWS = 16;
-const COLS = 13;
-const SPACING = 10
+let cellSize = 40;
+const ROWS = 13;
+const COLS = 16;
+const SPACING = 10;
 
-colors = [100, 200, 50, 100, 230, 140, 180, 20, 50, 90, 20, 30, 140]
+let labels = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Closed", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
 
+// Updated color array using hex values
+let colors = [
+  "#2196F3", "#9C27B0", "#E91E63", "#FF5722", "#4CAF50",
+  "#FFEB3B", "#00BCD4", "#3F51B5", "#673AB7", "#03A9F4",
+  "#FF9800", "#F44336", "#CDDC39"
+];
 
 function setup() {
-
-  if (windowWidth < windowHeight) {
-    createCanvas(windowWidth, windowWidth);
-  }
-
-  else {
-    createCanvas(windowHeight, windowHeight);
-  }
-
-  cellSize = height/COLS/2;
-  grid = generateEmptyGrid(ROWS,  COLS);
+  createCanvas(windowHeight, windowHeight);
+  grid = generateEmptyGrid(ROWS, COLS);
 }
 
-function windowResized() {
-  if (windowWidth < windowHeight) {
-    resizeCanvas(windowWidth, windowHeight);
-  }
-
-  else {
-    resizeCanvas(windowHeight, windowWidth);
-  }
-  cellSize = height/COLS/2;
-}
 
 function draw() {
-  background(5);
+  background(50);
   displayGrid();
 }
 
 function mousePressed() {
-  let x = Math.floor(mouseX/cellSize + SPACING);
-  let y = Math.floor(mouseY/cellSize + SPACING);
-
-  //toggle self
+  let x = Math.floor((mouseX - 100) / (cellSize + SPACING));
+  let y = Math.floor((mouseY - 40) / (cellSize + SPACING));
   toggleCell(x, y);
 }
 
 function toggleCell(x, y) {
-  //make sure the cell you're toggling is in the grid
-  if (x >= 0 && x < ROWS && y >= 0 && y < COLS) {
-    if (grid[y][x] === 0) {
-      grid[y][x] = 1;
-    }
-    else {
-      grid[y][x] = 0;
-    }
+  if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+    grid[y][x] = grid[y][x] === 0 ? 1 : 0;
   }
 }
-
-
 
 function keyPressed() {
   if (key === 'e') {
@@ -74,29 +49,24 @@ function keyPressed() {
   }
 }
 
-
 function displayGrid() {
-  for (let y = 0; y < COLS; y++) {
-    for (let x = 0; x < ROWS; x++) {
-      if (grid[y][x] === 1) {
-        fill(colors[y]);
-      }
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      fill(grid[y][x] === 1 ? colors[y] : 240); // Use color from the row-specific color list
+      stroke(0);
 
-      else {
-        fill(240);
-      }
-
-      stroke('gray');
-      square(x * (cellSize + SPACING) + 100,  y * (cellSize + SPACING) + 40, cellSize);
+      // Adjusted positioning to replicate the layout in the image
+      let xpos = x * (cellSize + SPACING) + 100
+      let ypos = y * (cellSize + SPACING) + 40
+      rect(x * (cellSize + SPACING) + 100, y * (cellSize + SPACING) + 40, cellSize, cellSize, 3);
     }
   }
 }
 
-
-function generateEmptyGrid(cols, rows) {
+function generateEmptyGrid(rows, cols) {
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
-    newGrid.push([1]);
+    newGrid.push([]);
     for (let x = 0; x < cols; x++) {
       newGrid[y].push(0);
     }
