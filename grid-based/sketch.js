@@ -8,9 +8,12 @@
 
 
 let grid;
-let cellSize;
-const GRID_SIZE  = 10;
-colors = []
+let cellSize = 40
+const ROWS = 16;
+const COLS = 13;
+const SPACING = 10
+
+colors = [100, 200, 50, 100, 230, 140, 180, 20, 50, 90, 20, 30, 140]
 
 
 function setup() {
@@ -23,8 +26,8 @@ function setup() {
     createCanvas(windowHeight, windowHeight);
   }
 
-  cellSize = height/GRID_SIZE;
-  grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
+  cellSize = height/COLS/2;
+  grid = generateEmptyGrid(ROWS,  COLS);
 }
 
 function windowResized() {
@@ -35,17 +38,17 @@ function windowResized() {
   else {
     resizeCanvas(windowHeight, windowWidth);
   }
-  cellSize = height/GRID_SIZE;
+  cellSize = height/COLS/2;
 }
 
 function draw() {
-  background(220);
+  background(5);
   displayGrid();
 }
 
 function mousePressed() {
-  let x = Math.floor(mouseX/cellSize);
-  let y = Math.floor(mouseY/cellSize);
+  let x = Math.floor(mouseX/cellSize + SPACING);
+  let y = Math.floor(mouseY/cellSize + SPACING);
 
   //toggle self
   toggleCell(x, y);
@@ -53,7 +56,7 @@ function mousePressed() {
 
 function toggleCell(x, y) {
   //make sure the cell you're toggling is in the grid
-  if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
+  if (x >= 0 && x < ROWS && y >= 0 && y < COLS) {
     if (grid[y][x] === 0) {
       grid[y][x] = 1;
     }
@@ -67,14 +70,14 @@ function toggleCell(x, y) {
 
 function keyPressed() {
   if (key === 'e') {
-    grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
+    grid = generateEmptyGrid(ROWS, COLS);
   }
 }
 
 
 function displayGrid() {
-  for (let y = 0; y < GRID_SIZE; y++) {
-    for (let x = 0; x < GRID_SIZE; x++) {
+  for (let y = 0; y < COLS; y++) {
+    for (let x = 0; x < ROWS; x++) {
       if (grid[y][x] === 1) {
         fill(colors[y]);
       }
@@ -84,7 +87,7 @@ function displayGrid() {
       }
 
       stroke('gray');
-      square(x * cellSize, y * cellSize, cellSize);
+      square(x * (cellSize + SPACING) + 100,  y * (cellSize + SPACING) + 40, cellSize);
     }
   }
 }
