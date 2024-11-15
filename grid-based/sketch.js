@@ -8,7 +8,7 @@
 let grid;
 let cellSize = 40;
 const ROWS = 13;
-const COLS = 32;
+const COLS = 24;
 const SPACING = 10;
 
 let sounds = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Close", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
@@ -57,10 +57,11 @@ function setup() {
 function draw() {
   tempo = tempoSlider.value()
   beatDuration = 60/tempo * 1000 / 4
-  background(50);
+  background(70);
   displayGrid();
   displayLabels();
   loopBeat();
+  indicator();
 }
 
 
@@ -125,6 +126,27 @@ function mousePressed() {
     }
   }
 
+  function mouseDragged() {
+    let xIndex = Math.floor((mouseX - 150) / (cellSize + SPACING));
+    let yIndex = Math.floor((mouseY - 60) / (cellSize + SPACING));
+
+    // Calculate the exact cell boundaries
+    let cellX = xIndex * (cellSize + SPACING) + 150;
+    let cellY = yIndex * (cellSize + SPACING) + 60;
+
+    // Check if the mouse is within the cell and the cell is currently off
+    if (mouseX > cellX && mouseX < cellX + cellSize &&
+        mouseY > cellY && mouseY < cellY + cellSize) {
+      if (xIndex >= 0 && xIndex < COLS && yIndex >= 0 && yIndex < ROWS) {
+        if (grid[yIndex][xIndex] === 0) {
+          grid[yIndex][xIndex] = 1;
+          playSounds(sounds[yIndex]); // Play the sound when a cell is turned on
+        }
+      }
+    }
+  }
+
+
   function loopBeat() {
     // Check if the required time interval has passed since the last beat
     if (millis() - lastBeatTime >= beatDuration) {
@@ -140,7 +162,14 @@ function mousePressed() {
       }
     }
 
-function indicator
+function indicator() {
+  let xpos = beatCounter * (cellSize + SPACING) + 150;
+  let ypos = 40;
+
+  fill("red");
+  noStroke();
+  ellipse(xpos + cellSize / 2, ypos, 15, 15); // Draw the red dot centered above the current beat
+}
 
 function toggleCell(x, y) {
   if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
