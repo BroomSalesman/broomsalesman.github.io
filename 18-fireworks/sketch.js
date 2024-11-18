@@ -13,12 +13,14 @@ class Particle {
     this.dx = random(-5, 5);
     this.dy = random(-5, 5);
     this.size = 5;
-    this.r = 50;
-    this.g = random(255);
-    this.b = random(255);
+    this.r = 255;
+    this.g = 255;
+    this.b = 0;
+    this.opacity = 255;
   }
 
   display() {
+    noStroke()
     fill(this.r, this.g, this.b);
     circle(this.x, this.y, this.size);
   }
@@ -26,6 +28,19 @@ class Particle {
   move() {
     this.x += this.dx;
     this.y += this.dy;
+  }
+
+  update() {
+    //move
+    this.x += this.dx;
+    this.y += this.dyj
+
+    //fade away over time
+    this.opacity--;
+  }
+
+  isDead() {
+    return this.opacity <= 0;
   }
 }
 
@@ -38,7 +53,12 @@ function setup() {
 function draw() {
   background(0);
   for (let firework of theFireworks) {
-    firework.move();
+    if (firework.isDead()) {
+      //delete it
+      let index = theFireworks.indexOf(firework);
+      theFireworks.splice(index, 1);
+    }
+    firework.update();
     firework.display();
   }
 }
