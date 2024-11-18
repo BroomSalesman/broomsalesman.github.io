@@ -1,4 +1,4 @@
-  //  Grid Demo
+//  Grid Demo
 // Labeeb Farooqi
 // Ocotber 22, 2024
 
@@ -66,11 +66,11 @@ function toggleCell(x, y) {
 
 function keyPressed() {
   if (key === 'r') {
-    grid = generateRandomGrid(GRID_SIZE, GRID_SIZE)
+    grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
   }
 
   if (key === 'e') {
-    grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE)
+    grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
 }
 

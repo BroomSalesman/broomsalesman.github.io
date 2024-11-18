@@ -11,7 +11,7 @@ const ROWS = 13;
 const COLS = 24;
 const SPACING = 10;
 
-let sounds = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Close", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"]
+let sounds = ["Bass", "Kick", "Snare", "HiHat Open", "HiHat Close", "Cymbal", "Tom Low", "Tom Mid", "Tom Hi", "Donk", "Rim Shot", "Clap", "Cowbell"];
 
 let colors = [
   "#2196F3", "#9C27B0", "#E91E63", "#FF5722", "#4CAF50",
@@ -26,22 +26,22 @@ let beatDuration;
 let beatCounter = 0;
 let lastBeatTime = 0;
 
-let bass, kick, snare, hihatOpen, hihatClose, cymbal, tomLow, tomMid, tomHi, donk, rimShot, clap, cowbell
+let bass, kick, snare, hihatOpen, hihatClose, cymbal, tomLow, tomMid, tomHi, donk, rimShot, clap, cowbell;
 
 function preload() {
-  bass = loadSound('beats/bass-drum.wav')
-  kick = loadSound('beats/kick.wav')
-  snare = loadSound('beats/snare.wav')
-  hihatOpen = loadSound('beats/hihat-open.wav')
-  hihatClose = loadSound('beats/hihat-closed.wav')
-  cymbal = loadSound('beats/cymbal.wav')
-  tomLow = loadSound('beats/tom-low.wav')
-  tomMid = loadSound('beats/tom-mid.wav')
-  tomHi = loadSound('beats/tom-hi.wav')
-  donk = loadSound('beats/donk.wav')
-  rimShot = loadSound('beats/rim-shot.wav')
-  clap = loadSound('beats/clap.wav')
-  cowbell = loadSound('beats/cowbell.wav')
+  bass = loadSound('beats/bass-drum.wav');
+  kick = loadSound('beats/kick.wav');
+  snare = loadSound('beats/snare.wav');
+  hihatOpen = loadSound('beats/hihat-open.wav');
+  hihatClose = loadSound('beats/hihat-closed.wav');
+  cymbal = loadSound('beats/cymbal.wav');
+  tomLow = loadSound('beats/tom-low.wav');
+  tomMid = loadSound('beats/tom-mid.wav');
+  tomHi = loadSound('beats/tom-hi.wav');
+  donk = loadSound('beats/donk.wav');
+  rimShot = loadSound('beats/rim-shot.wav');
+  clap = loadSound('beats/clap.wav');
+  cowbell = loadSound('beats/cowbell.wav');
 }
 
 function setup() {
@@ -51,8 +51,8 @@ function setup() {
 }
 
 function draw() {
-  tempo = tempoSlider.value()
-  beatDuration = 60/tempo * 1000 / 4
+  tempo = tempoSlider.value();
+  beatDuration = 60/tempo * 1000 / 4;
   background(70);
   displayGrid();
   displayLabels();
@@ -62,43 +62,43 @@ function draw() {
 
 function playSounds(theSound) {
   if (theSound === sounds[0]) {
-    bass.play()
+    bass.play();
   }
   else if (theSound === sounds[1]) {
-    kick.play()
+    kick.play();
   }
   else if (theSound === sounds[2]) {
-    snare.play()
+    snare.play();
   }
   else if (theSound === sounds[3]) {
-    hihatOpen.play()
+    hihatOpen.play();
   }
   else if (theSound === sounds[4]) {
-    hihatClose.play()
+    hihatClose.play();
   }
   else if (theSound === sounds[5]) {
-    cymbal.play()
+    cymbal.play();
   }
   else if (theSound === sounds[6]) {
-    tomLow.play()
+    tomLow.play();
   }
   else if (theSound === sounds[7]) {
-    tomMid.play()
+    tomMid.play();
   }
   else if (theSound === sounds[8]) {
-    tomHi.play()
+    tomHi.play();
   }
   else if (theSound === sounds[9]) {
-    donk.play()
+    donk.play();
   }
   else if (theSound === sounds[10]) {
-    rimShot.play()
+    rimShot.play();
   }
   else if (theSound === sounds[11]) {
-    clap.play()
+    clap.play();
   }
   else if (theSound === sounds[12]) {
-    cowbell.play()
+    cowbell.play();
   }
 
 
@@ -118,46 +118,48 @@ function mousePressed() {
   // Check if the mouse is within the button
   if (mouseX > cellX && mouseX < cellX + cellSize &&mouseY > cellY && mouseY < cellY + cellSize) {
     toggleCell(xIndex, yIndex);
-    }
   }
+}
 
-  function mouseDragged() {
-    let xIndex = Math.floor((mouseX - 150) / (cellSize + SPACING));
-    let yIndex = Math.floor((mouseY - 60) / (cellSize + SPACING));
+/*
+function mouseDragged() {
+  let xIndex = Math.floor((mouseX - 150) / (cellSize + SPACING));
+  let yIndex = Math.floor((mouseY - 60) / (cellSize + SPACING));
 
-    // Calculate the exact cell boundaries
-    let cellX = xIndex * (cellSize + SPACING) + 150;
-    let cellY = yIndex * (cellSize + SPACING) + 60;
+  // Calculate the exact cell boundaries
+  let cellX = xIndex * (cellSize + SPACING) + 150;
+  let cellY = yIndex * (cellSize + SPACING) + 60;
 
-    // Check if the mouse is within the cell and the cell is currently off
-    if (mouseX > cellX && mouseX < cellX + cellSize &&
+  // Check if the mouse is within the cell and the cell is currently off
+  if (mouseX > cellX && mouseX < cellX + cellSize &&
         mouseY > cellY && mouseY < cellY + cellSize) {
-      if (xIndex >= 0 && xIndex < COLS && yIndex >= 0 && yIndex < ROWS) {
-        if (grid[yIndex][xIndex] === 0) {
-          grid[yIndex][xIndex] = 1;
-          playSounds(sounds[yIndex]); // Play the sound when a cell is turned on
-        }
+    if (xIndex >= 0 && xIndex < COLS && yIndex >= 0 && yIndex < ROWS) {
+      if (grid[yIndex][xIndex] === 0) {
+        grid[yIndex][xIndex] = 1;
+        playSounds(sounds[yIndex]); // Play the sound when a cell is turned on
       }
     }
   }
+}
+  */
 
-  function loopBeat() {
-    // Check if the required time interval has passed since the last beat
-    if (millis() - lastBeatTime >= beatDuration) {
-      lastBeatTime = millis(); // Update the last beat time
-      beatCounter = (beatCounter + 1) % COLS;
+function loopBeat() {
+  // Check if the required time interval has passed since the last beat
+  if (millis() - lastBeatTime >= beatDuration) {
+    lastBeatTime = millis(); // Update the last beat time
+    beatCounter = (beatCounter + 1) % COLS;
 
-      // Loop through each row in the grid
-      for (let y = 0; y < ROWS; y++) {
-        if (grid[y][beatCounter] === 1) {
-          playSounds(sounds[y]); // Play the sound corresponding to the current row
-          }
-        }
+    // Loop through each row in the grid
+    for (let y = 0; y < ROWS; y++) {
+      if (grid[y][beatCounter] === 1) {
+        playSounds(sounds[y]); // Play the sound corresponding to the current row
       }
     }
+  }
+}
 
 function indicator() {
-  let x = beatCounter * (cellSize + SPACING) + 150;
+  let xpos = beatCounter * (cellSize + SPACING) + 150;
   let ypos = 40;
 
   fill("red");
@@ -168,11 +170,11 @@ function indicator() {
 function toggleCell(x, y) {
   if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
     if (grid[y][x] === 0) {
-      grid[y][x] = 1
-      playSounds(sounds[y])
+      grid[y][x] = 1;
+      playSounds(sounds[y]);
     }
     else {
-      grid[y][x] = 0
+      grid[y][x] = 0;
     }
   }
 }
@@ -191,8 +193,8 @@ function displayGrid() {
 
       stroke(0);
 
-      let xpos = x * (cellSize + SPACING) + 150
-      let ypos = y * (cellSize + SPACING) + 60
+      let xpos = x * (cellSize + SPACING) + 150;
+      let ypos = y * (cellSize + SPACING) + 60;
       rect(xpos, ypos, cellSize, cellSize, 3);
     }
   }
@@ -210,21 +212,21 @@ function generateEmptyGrid(rows, cols) {
 }
 
 function Slider() {
-  tempoSlider = createSlider(5, 240, 90, 5)
-  tempoSlider.position (150, 770)
-  tempoSlider.size(200)
+  tempoSlider = createSlider(5, 240, 90, 5);
+  tempoSlider.position (150, 770);
+  tempoSlider.size(200);
 }
 
 function displayLabels() {
-    // Sound labels
-    fill(255);
-    for (let y = 0; y < ROWS; y++) {
-      textSize(20);
-      text(sounds[y], 23, y * (cellSize + SPACING) + 87); // Offset for label alignment
-    }
-
-    // Tempo label
+  // Sound labels
+  fill(255);
+  for (let y = 0; y < ROWS; y++) {
     textSize(20);
-    fill("orange")
-    text(`TEMPO: ${tempo}`, 150, 755)
+    text(sounds[y], 23, y * (cellSize + SPACING) + 87); // Offset for label alignment
+  }
+
+  // Tempo label
+  textSize(20);
+  fill("orange");
+  text(`TEMPO: ${tempo}`, 150, 755);
 }
