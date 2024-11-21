@@ -54,7 +54,6 @@ function draw() {
   background(0);
   for (let firework of theFireworks) {
     if (firework.isDead()) {
-      //delete it
       let index = theFireworks.indexOf(firework);
       theFireworks.splice(index, 1);
     }
