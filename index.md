@@ -19,6 +19,8 @@
 - [16. Walker OOP](16-walker-oop)
 - [17. Walker OOP Array](17-walker-oop-array)
 - [18. Fireworks](18-fireworks)
+- [19. Nodes](19-nodes)
+- [20. Collide2D Demo](20-collide)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
