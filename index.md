@@ -21,6 +21,7 @@
 - [18. Fireworks](18-fireworks)
 - [19. Nodes](19-nodes)
 - [20. Collide2D Demo](20-collide)
+- [21. Local Storage](21-local-storage)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
