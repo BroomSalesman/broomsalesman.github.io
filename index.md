@@ -22,6 +22,7 @@
 - [19. Nodes](19-nodes)
 - [20. Collide2D Demo](20-collide)
 - [21. Local Storage](21-local-storage)
+- [22. Object Inheritance](22-inheritance)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
