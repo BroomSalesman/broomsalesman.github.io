@@ -8,6 +8,18 @@ class Rect {
     Composite.add(engine.world, this.body);
   }
 
+  display() {
+    push();
+    rectMode(CENTER);
+    let x = this.body.position.x;
+    let y = this.body.position.y;
+    let angle = this.body.angle;
+
+    translate(x, y);
+    rotate(angle);
+    rect(0, 0, this.w, this.h);
+    pop();
+  }
 
 
 }
